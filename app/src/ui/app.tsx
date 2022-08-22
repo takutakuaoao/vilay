@@ -27,7 +27,7 @@ export const App = () => {
   }
 
   const initialConfig = {
-    namespace: 'MyEditor',
+    namespace: 'MyEditoror',
     onError: (error: Error) => console.error(error),
   }
   return (
