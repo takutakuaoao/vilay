@@ -35,7 +35,7 @@ export class AppWindow {
     }
 
     if (__DARWIN__) {
-      windowOptions.titleBarStyle = 'hidden'
+      windowOptions.titleBarStyle = 'default'
     } else if (__WIN32__) {
       windowOptions.frame = false
     } else if (__LINUX__) {
