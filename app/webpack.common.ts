@@ -64,7 +64,7 @@ export const main = merge({}, commonConfig, {
 })
 
 export const renderer = merge({}, commonConfig, {
-  entry: { renderer: path.resolve(__dirname, 'src/ui/index') },
+  entry: { renderer: path.resolve(__dirname, 'src/workspace/index') },
   target: 'electron-renderer',
   module: {
     rules: [
@@ -85,7 +85,7 @@ export const renderer = merge({}, commonConfig, {
     }),
     new webpack.DefinePlugin(
       Object.assign({}, replacements, {
-        __PROCESS_KIND__: JSON.stringify('ui'),
+        __PROCESS_KIND__: JSON.stringify('renderer'),
       })
     ),
   ],

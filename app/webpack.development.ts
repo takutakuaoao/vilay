@@ -40,6 +40,7 @@ const rendererConfig = merge({}, common.renderer, config, {
           'style-loader',
           { loader: 'css-loader', options: { sourceMap: true } },
           { loader: 'sass-loader', options: { sourceMap: true } },
+          'postcss-loader',
         ],
       },
     ],

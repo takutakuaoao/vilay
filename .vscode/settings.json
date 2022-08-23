@@ -13,9 +13,9 @@
     "**/.svn": true,
     "**/.hg": true,
     "**/.DS_Store": true,
-    "**/node_modules": false,
-    "**/dist": false,
-    "**/out": false,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/out": true,
     ".awcache": true,
     ".eslintcache": true
   },
@@ -26,6 +26,7 @@
   "prettier.trailingComma": "es5",
   "editor.formatOnSave": true,
   "prettier.ignorePath": ".prettierignore",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "eslint.options": {
     "overrideConfigFile": ".eslintrc.yml"
     // "rulePaths": ["eslint-rules"]
@@ -35,10 +36,5 @@
     "javascriptreact",
     "typescript",
     "typescriptreact"
-  ],
-  "editor.quickSuggestions": {
-    "other": "inline",
-    "comments": "inline",
-    "strings": "inline"
-  }
+  ]
 }

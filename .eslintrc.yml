@@ -12,7 +12,6 @@ settings:
 
 extends:
   - prettier
-  - prettier/react
   - plugin:@typescript-eslint/recommended
 
 rules:
