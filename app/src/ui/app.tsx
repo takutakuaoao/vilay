@@ -3,7 +3,6 @@ import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import '../../styles/app.scss'
 import '../../styles/theme/editor/default-vilay/default-vilay-editor-theme.scss'
 import '../../styles/typography/editor/default-vilay/default-vilay-editor-typography.scss'
-import { AutoFocus } from '../editor/auto-focus'
 import { Editor } from '../editor/ui/editor'
 
 export const App = () => {
@@ -15,7 +14,6 @@ export const App = () => {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <Editor />
-      <AutoFocus />
     </LexicalComposer>
   )
 }
