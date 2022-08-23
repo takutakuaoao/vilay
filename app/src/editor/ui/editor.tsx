@@ -1,7 +1,7 @@
+import * as React from 'react'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
-import * as React from 'react'
-import { AutoFocus } from '../auto-focus'
+import { AutoFocus } from '../features/auto-focus/auto-focus'
 
 import '../../../styles/theme/editor/default-vilay/default-vilay-editor-theme.scss'
 import '../../../styles/typography/editor/default-vilay/default-vilay-editor-typography.scss'
