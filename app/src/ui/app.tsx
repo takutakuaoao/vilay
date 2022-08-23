@@ -5,6 +5,7 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import '../../styles/app.scss'
 import '../../styles/theme/editor/default-vilay/default-vilay-editor-theme.scss'
 import '../../styles/typography/editor/default-vilay/default-vilay-editor-typography.scss'
+import { AutoFocus } from '../editor/auto-focus'
 
 export const App = () => {
   const initialConfig = {
@@ -24,6 +25,7 @@ export const App = () => {
           />
         </div>
       </div>
+      <AutoFocus />
     </LexicalComposer>
   )
 }
