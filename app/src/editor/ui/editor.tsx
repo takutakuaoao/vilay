@@ -3,6 +3,9 @@ import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
 import * as React from 'react'
 import { AutoFocus } from '../auto-focus'
 
+import '../../../styles/theme/editor/default-vilay/default-vilay-editor-theme.scss'
+import '../../../styles/typography/editor/default-vilay/default-vilay-editor-typography.scss'
+
 export const Editor = () => {
   return (
     <>
