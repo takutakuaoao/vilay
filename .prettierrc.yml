@@ -6,6 +6,6 @@ endOfLine: auto
 arrowParens: avoid
 
 overrides:
-  - files: "*.scss"
+  - files: '*.scss'
     options:
       printWidth: 200
