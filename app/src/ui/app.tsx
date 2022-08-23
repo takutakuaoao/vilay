@@ -1,44 +1,28 @@
 import * as React from 'react'
-import { $getRoot, $getSelection, EditorState } from 'lexical'
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import '../../styles/app.scss'
+import '../../styles/theme/editor/default-vilay/default-vilay-editor-theme.scss'
 
 export const App = () => {
-  const onChange = (editorState: EditorState) => {
-    editorState.read(() => {
-      const root = $getRoot()
-      const selection = $getSelection()
-
-      console.log(root, selection)
-    })
-  }
-
-  const MyCustomAutoFocusPlugin = () => {
-    const [editor] = useLexicalComposerContext()
-    React.useEffect(() => {
-      editor.focus()
-    }, [editor])
-
-    return null
-  }
-
   const initialConfig = {
     namespace: 'Editor',
     onError: (error: Error) => console.error(error),
   }
+
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <PlainTextPlugin
-        contentEditable={<ContentEditable testid="editor" />}
+        contentEditable={
+          <ContentEditable
+            testid="editor"
+            className="h-screen p-4"
+            id="default-vilay-editor-theme"
+          />
+        }
         placeholder=""
       />
-      <OnChangePlugin onChange={onChange} />
-      <HistoryPlugin />
-      <MyCustomAutoFocusPlugin />
     </LexicalComposer>
   )
 }
