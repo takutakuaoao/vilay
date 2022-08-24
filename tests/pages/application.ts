@@ -1,4 +1,4 @@
-import { Expect, expect } from '@playwright/test'
+import { expect } from '@playwright/test'
 import { Locator, Page, _electron } from 'playwright'
 
 type WindowSize = {
@@ -60,18 +60,20 @@ export class Application {
   }
 
   public async editorCanScroll(direction: 'bottom' | 'right') {
-    await this.editor.evaluate(
-      (editor, { direction, expect }) => {
+    const scrollSize = await this.editor.evaluate(
+      (editor, { direction }) => {
         if (direction === 'bottom') {
           editor.scrollIntoView({ block: 'end' })
-          expect(editor.scrollTop > 0).toBeTruthy()
+          return editor.scrollTop
         } else {
           editor.scrollIntoView({ inline: 'end' })
-          expect(editor.scrollLeft === 0).toBeTruthy()
+          return editor.scrollLeft
         }
       },
-      { direction, expect }
+      { direction }
     )
+
+    expect(scrollSize > 0).toBeTruthy()
   }
 
   public async stop() {
