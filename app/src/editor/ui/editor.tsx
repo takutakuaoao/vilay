@@ -16,7 +16,7 @@ export const Editor = () => {
         <div id="default-vilay-editor-theme" className="theme">
           <div className="flex">
             <RowNumber
-              className={`flex flex-col ${paddingTop} px-4 text-right`}
+              className={`flex flex-col ${paddingTop} px-4 text-right theme-line-number`}
             />
             <PlainTextPlugin
               contentEditable={
