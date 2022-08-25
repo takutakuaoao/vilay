@@ -35,3 +35,14 @@ test.describe('Scroll', () => {
     await app.editorCanScroll('right')
   })
 })
+
+test.describe('Selection', () => {
+  test('Add current-row-id to row of current cursor', async () => {
+    const app = await Application.factory()
+    await app.doPressEnter()
+    await app.hasMarkCursorRow(2)
+
+    await app.doPressBackSpace()
+    await app.hasNotMarkCursorRow(2)
+  })
+})

@@ -35,13 +35,13 @@ export class Application {
 
   public async pressBackSpace(input: string) {
     await this.doType(input)
-    await this.editor.press('Backspace')
+    await this.doPressBackSpace()
     expect(await this.editor.innerText()).toBe(input.slice(0, -1))
   }
 
   public async pressEnter(firstInput: string, secondInput: string) {
     await this.doType(firstInput)
-    await this.editor.press('Enter')
+    await this.doPressEnter()
     await this.doType(secondInput)
 
     const expectText = `${firstInput}\n${secondInput}`
@@ -57,6 +57,30 @@ export class Application {
       const rowNumber = this.window.locator(`data-testid=row-number-${value}`)
       expect(await rowNumber.innerText()).toBe(value.toString())
     }
+  }
+
+  public async doPressEnter() {
+    await this.editor.press('Enter')
+  }
+
+  public async doPressBackSpace() {
+    await this.editor.press('Backspace')
+  }
+
+  public async hasMarkCursorRow(rowNumber: number) {
+    const isVisible = await this.window.isVisible(
+      `data-testid=cursor-row-${rowNumber}`
+    )
+
+    expect(isVisible).toBeTruthy()
+  }
+
+  public async hasNotMarkCursorRow(rowNumber: number) {
+    const isVisible = await this.window.isHidden(
+      `data-testid=cursor-row-${rowNumber}`
+    )
+
+    expect(isVisible).toBeTruthy()
   }
 
   public async editorCanScroll(direction: 'bottom' | 'right') {
