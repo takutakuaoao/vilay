@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.test {
-  background-color: black;
+#editor {
+  white-space: pre !important;
 }

@@ -22,7 +22,8 @@ export const Editor = () => {
               contentEditable={
                 <ContentEditable
                   testid="editor"
-                  className={`h-screen flex-grow ${paddingTop} px-4`}
+                  className={`h-screen flex-grow ${paddingTop} px-4 overflow-x-auto`}
+                  id="editor"
                 />
               }
               placeholder=""
