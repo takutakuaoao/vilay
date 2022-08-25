@@ -8,17 +8,21 @@ test('Editor is focused when first view', async () => {
 
 test('input text', async () => {
   const app = await Application.factory()
-  await app.type('input')
+  await app.doType('input')
+  await app.hasText('input')
 })
 
 test('type Entry', async () => {
   const app = await Application.factory()
-  await app.pressEnter('first input', 'second input')
+  await app.doType(['first input', 'second input'])
+  await app.hasText(['first input', 'second input'])
 })
 
 test('delete text', async () => {
   const app = await Application.factory()
-  await app.pressBackSpace('input')
+  await app.doType('input')
+  await app.doPressBackSpace()
+  await app.hasText('inpu')
 })
 
 test.describe('Number Lane', () => {
@@ -32,12 +36,12 @@ test.describe('Scroll', () => {
   test('Can scroll to y direction when text is over width of pane.', async () => {
     const app = await Application.factory({ width: 100, height: 400 })
     await app.doType('over editor width string text..............')
-    await app.editorCanScroll('right')
+    await app.canScroll('right')
   })
 })
 
 test.describe('Selection', () => {
-  test('Add current-row-id to row of current cursor', async () => {
+  test.skip('Add current-row-id to row of current cursor', async () => {
     const app = await Application.factory()
     await app.doPressEnter()
     await app.hasMarkCursorRow(2)
