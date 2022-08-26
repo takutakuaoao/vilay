@@ -5,9 +5,12 @@ import { $getRoot } from 'lexical'
 
 type Props = {
   className: string
+  option?: {
+    cursorRowNumber?: number
+  }
 }
 
-export const RowNumber = ({ className }: Props) => {
+export const RowNumber = ({ className, option }: Props) => {
   const [editor] = useLexicalComposerContext()
   const [rowNumber, setRowNumber] = React.useState(0)
 
@@ -28,12 +31,39 @@ export const RowNumber = ({ className }: Props) => {
     <div className={className}>
       {numberList.map(value => {
         const rowId = `row-number-${value}`
+
         return (
-          <div data-testid={rowId} key={value}>
-            {value}
+          <div data-testid={rowId} key={value} className="relative">
+            <div
+              className={
+                value === option?.cursorRowNumber
+                  ? 'theme-active-cursor-row'
+                  : ''
+              }
+            >
+              {value}
+            </div>
+            {value === option?.cursorRowNumber ? (
+              <CursorHighlight testIdName="{`cursor-row-${value}`}" />
+            ) : (
+              ''
+            )}
           </div>
         )
       })}
     </div>
+  )
+}
+
+type CursorHighLightProps = {
+  testIdName: string
+}
+
+const CursorHighlight = ({ testIdName }: CursorHighLightProps) => {
+  return (
+    <div
+      className="absolute left-0 top-0 h-[24px] w-screen theme-cursor-row-highlight"
+      data-testid={testIdName}
+    ></div>
   )
 }

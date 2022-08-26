@@ -41,12 +41,18 @@ test.describe('Scroll', () => {
 })
 
 test.describe('Selection', () => {
-  test.skip('Add current-row-id to row of current cursor', async () => {
+  test('Add current-row-id to row of current cursor', async () => {
     const app = await Application.factory()
     await app.doPressEnter()
-    await app.hasMarkCursorRow(2)
+    await app.doPressEnter()
+    await app.hasMarkCursorRow(3)
 
     await app.doPressBackSpace()
+    await app.hasNotMarkCursorRow(3)
+    await app.hasMarkCursorRow(2)
+
+    await app.doPressUp()
     await app.hasNotMarkCursorRow(2)
+    await app.hasMarkCursorRow(1)
   })
 })

@@ -54,6 +54,10 @@ export class Application {
     await this.editor.press('Backspace')
   }
 
+  public async doPressUp() {
+    await this.editor.press('ArrowUp')
+  }
+
   public async isFocus() {
     await expect(this.editor).toBeFocused()
   }

@@ -5,4 +5,12 @@
   & .theme-line-number {
     color: #636d83;
   }
+
+  & .theme-cursor-row-highlight {
+    background-color: #99bbff0a;
+  }
+
+  & .theme-active-cursor-row {
+    color: #abb2bf;
+  }
 }

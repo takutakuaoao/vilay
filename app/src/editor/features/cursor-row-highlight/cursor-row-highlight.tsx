@@ -1,66 +1,69 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-import {
-  // $getRoot,
-  $getSelection,
-  LineBreakNode,
-  RangeSelection,
-  // TextNode,
-} from 'lexical'
-import { useEffect } from 'react'
+import { $getSelection, LineBreakNode, RangeSelection, TextNode } from 'lexical'
+import { useState } from 'react'
 
-export const CursorRowHighlight = () => {
+export const useCursorRowHighlight = () => {
   const [editor] = useLexicalComposerContext()
+  const [currentRowNumber, setCurrentRowNumber] = useState(0)
 
-  useEffect(() => {
+  const cursorHighlight = () => {
     return editor.registerUpdateListener(({ editorState }) => {
-      // editorState.read(() => {
-      editor.update(() => {
-        // const root = $getRoot()
+      editorState.read(() => {
         const selection = $getSelection() as RangeSelection
-        const extracted = selection.extract()[0]
-        console.log(selection.extract())
-        // const targetKey = extracted.getKey()
-        const parent = extracted.getParent()
 
-        // console.log('root', root)
-        // console.log('selection', selection)
-        // console.log('extracted', extracted)
-        // console.log('key', targetKey)
-        // console.log('parent', parent)
+        if (selection == null) {
+          return
+        }
 
-        // console.log('children of parent')
+        const targetKey = selection.extract()[0].getKey()
+        const parent = selection.extract()[0].getParent()
 
         let currentRow = 0
 
         if (parent) {
-          console.log('---------------------------------------------------')
-          console.log('|                                                 |')
-          console.log('|                     start                       |')
-          console.log('|                                                 |')
-          console.log('---------------------------------------------------')
-
           const children = parent.getChildren()
 
           for (const [keyString, child] of Object.entries(children)) {
             const key = parseInt(keyString)
 
-            console.log(child)
-            console.log(key)
+            //
+            // カウント処理
+            //
+            currentRow = currentRow + 1
 
-            if (child instanceof LineBreakNode) {
+            if (
+              child instanceof LineBreakNode &&
+              key > 0 &&
+              children[key - 1] instanceof TextNode
+            ) {
+              currentRow = currentRow - 1
+            }
+
+            // 最終行が空文字のみの場合、childrenには空文字の情報が含まれないため
+            // カーソルの位置情報とchildrenの最後のノードタイプから
+            // 行番号を加算するか判定する
+            if (
+              key === children.length - 1 &&
+              child instanceof LineBreakNode &&
+              selection.anchor.key === '1' &&
+              selection.anchor.offset === children.length
+            ) {
               currentRow = currentRow + 1
             }
 
-            // if (child.getKey() === targetKey) {
-            //   break
-            // }
+            //
+            // ストップ処理
+            //
+            if (child.getKey() === targetKey) {
+              break
+            }
           }
         }
 
-        console.log(currentRow)
+        setCurrentRowNumber(currentRow)
       })
     })
-  }, [editor])
+  }
 
-  return null
+  return { cursorHighlight, currentRowNumber }
 }
