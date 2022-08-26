@@ -1,5 +1,4 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-import {} from '@lexical/text'
 import * as React from 'react'
 import { $getRoot } from 'lexical'
 
@@ -44,7 +43,7 @@ export const RowNumber = ({ className, option }: Props) => {
               {value}
             </div>
             {value === option?.cursorRowNumber ? (
-              <CursorHighlight testIdName="{`cursor-row-${value}`}" />
+              <CursorHighlight testIdName={`cursor-row-${value}`} />
             ) : (
               ''
             )}
@@ -62,7 +61,7 @@ type CursorHighLightProps = {
 const CursorHighlight = ({ testIdName }: CursorHighLightProps) => {
   return (
     <div
-      className="absolute left-0 top-0 h-[24px] w-screen theme-cursor-row-highlight"
+      className="absolute -left-4 top-0 h-[24px] w-screen theme-cursor-row-highlight"
       data-testid={testIdName}
     ></div>
   )
