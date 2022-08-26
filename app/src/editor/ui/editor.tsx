@@ -6,6 +6,7 @@ import { AutoFocus } from '../features/auto-focus/auto-focus'
 import '../../../styles/theme/editor/default-vilay/default-vilay-editor-theme.scss'
 import '../../../styles/typography/editor/default-vilay/default-vilay-editor-typography.scss'
 import { RowNumber } from '../features/row-number/row-number'
+import { CursorRowHighlight } from '../features/cursor-row-highlight/cursor-row-highlight'
 
 export const Editor = () => {
   const paddingTop = 'pt-4'
@@ -32,6 +33,7 @@ export const Editor = () => {
         </div>
       </div>
       <AutoFocus />
+      <CursorRowHighlight />
     </>
   )
 }
