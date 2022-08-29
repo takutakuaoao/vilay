@@ -28,38 +28,62 @@ export class Application {
     this.editor = this.window.locator('data-testid=editor')
   }
 
-  public async type(input: string) {
-    await this.doType(input)
-    expect(await this.editor.innerText()).toBe(input)
+  public async doType(input: string | string[]) {
+    if (Array.isArray(input)) {
+      for (const [rowNumber, lineText] of Object.entries(input)) {
+        const num = parseInt(rowNumber)
+        await this.doType(lineText)
+
+        // Press enter when not last line
+        if (num + 1 !== input.length) {
+          await this.doPressEnter()
+        }
+      }
+
+      return
+    }
+
+    await this.editor.type(input)
   }
 
-  public async pressBackSpace(input: string) {
-    await this.doType(input)
-    await this.editor.press('Backspace')
-    expect(await this.editor.innerText()).toBe(input.slice(0, -1))
-  }
-
-  public async pressEnter(firstInput: string, secondInput: string) {
-    await this.doType(firstInput)
+  public async doPressEnter() {
     await this.editor.press('Enter')
-    await this.doType(secondInput)
+  }
 
-    const expectText = `${firstInput}\n${secondInput}`
-    expect(await this.editor.innerText()).toBe(expectText)
+  public async doPressBackSpace() {
+    await this.editor.press('Backspace')
+  }
+
+  public async doPressUp() {
+    await this.editor.press('ArrowUp')
   }
 
   public async isFocus() {
     await expect(this.editor).toBeFocused()
   }
 
-  public async expectShowRowNumberLane(expectNumber: number[]) {
-    for (const value of expectNumber) {
-      const rowNumber = this.window.locator(`data-testid=row-number-${value}`)
-      expect(await rowNumber.innerText()).toBe(value.toString())
-    }
+  public async hasText(input: string | string[]) {
+    const expectText = Array.isArray(input) ? input.join('\n') : input
+    expect(await this.editor.innerText()).toBe(expectText)
   }
 
-  public async editorCanScroll(direction: 'bottom' | 'right') {
+  public async hasMarkCursorRow(rowNumber: number) {
+    const isVisible = await this.window.isVisible(
+      `data-testid=cursor-row-${rowNumber}`
+    )
+
+    expect(isVisible).toBeTruthy()
+  }
+
+  public async hasNotMarkCursorRow(rowNumber: number) {
+    const isVisible = await this.window.isHidden(
+      `data-testid=cursor-row-${rowNumber}`
+    )
+
+    expect(isVisible).toBeTruthy()
+  }
+
+  public async canScroll(direction: 'bottom' | 'right') {
     const scrollSize = await this.editor.evaluate(
       (editor, { direction }) => {
         if (direction === 'bottom') {
@@ -76,11 +100,14 @@ export class Application {
     expect(scrollSize > 0).toBeTruthy()
   }
 
-  public async stop() {
-    await this.window.pause()
+  public async expectShowRowNumberLane(expectNumber: number[]) {
+    for (const value of expectNumber) {
+      const rowNumber = this.window.locator(`data-testid=row-number-${value}`)
+      expect(await rowNumber.innerText()).toBe(value.toString())
+    }
   }
 
-  public async doType(input: string) {
-    await this.editor.type(input)
+  public async stop() {
+    await this.window.pause()
   }
 }
