@@ -1,4 +1,16 @@
 #default-vilay-editor-theme {
-  background-color: #282929;
-  color: #c0c0c0;
+  background-color: #282c34;
+  color: #abb2bf;
+
+  & .theme-line-number {
+    color: #464950;
+  }
+
+  & .theme-cursor-row-highlight {
+    background-color: #a799ff14;
+  }
+
+  & .theme-active-cursor-row {
+    color: #727985;
+  }
 }

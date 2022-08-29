@@ -5,18 +5,37 @@ import { AutoFocus } from '../features/auto-focus/auto-focus'
 
 import '../../../styles/theme/editor/default-vilay/default-vilay-editor-theme.scss'
 import '../../../styles/typography/editor/default-vilay/default-vilay-editor-typography.scss'
+import { RowNumber } from '../features/row-number/row-number'
+import { useCursorRowHighlight } from '../features/cursor-row-highlight/cursor-row-highlight'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 
 export const Editor = () => {
+  const paddingTop = 'pt-4'
+  const { cursorHighlight, currentRowNumber } = useCursorRowHighlight()
+  const editor = useLexicalComposerContext()
+
+  React.useEffect(cursorHighlight, [editor])
+
   return (
     <>
       <div id="default-vilay-typography" className="typography">
         <div id="default-vilay-editor-theme" className="theme">
-          <PlainTextPlugin
-            contentEditable={
-              <ContentEditable testid="editor" className="h-screen p-4" />
-            }
-            placeholder=""
-          />
+          <div className="flex">
+            <RowNumber
+              className={`flex flex-col ${paddingTop} px-4 text-right theme-line-number`}
+              option={{ cursorRowNumber: currentRowNumber }}
+            />
+            <PlainTextPlugin
+              contentEditable={
+                <ContentEditable
+                  testid="editor"
+                  className={`min-h-screen flex-grow ${paddingTop} px-4 pb-4 overflow-x-auto focus-visible:outline-none`}
+                  id="editor"
+                />
+              }
+              placeholder=""
+            />
+          </div>
         </div>
       </div>
       <AutoFocus />
