@@ -9,7 +9,11 @@ import { RowNumber } from '../features/row-number/row-number'
 import { useCursorRowHighlight } from '../features/cursor-row-highlight/cursor-row-highlight'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 
-export const Editor = () => {
+type Props = {
+  width: number
+}
+
+export const Editor = ({ width }: Props) => {
   const paddingTop = 'pt-4'
   const { cursorHighlight, currentRowNumber } = useCursorRowHighlight()
   const editor = useLexicalComposerContext()
@@ -18,18 +22,21 @@ export const Editor = () => {
 
   return (
     <>
-      <div id="default-vilay-typography" className="typography">
+      <div id="default-vilay-typography" className="typography flex-grow">
         <div id="default-vilay-editor-theme" className="theme">
           <div className="flex">
             <RowNumber
               className={`flex flex-col ${paddingTop} px-4 text-right theme-line-number`}
-              option={{ cursorRowNumber: currentRowNumber }}
+              option={{
+                cursorRowNumber: currentRowNumber,
+                cursorHighLightWidth: width,
+              }}
             />
             <PlainTextPlugin
               contentEditable={
                 <ContentEditable
                   testid="editor"
-                  className={`min-h-screen flex-grow ${paddingTop} px-4 pb-4 overflow-x-auto focus-visible:outline-none`}
+                  className={`min-h-screen ${paddingTop} flex-grow px-4 pb-4 overflow-x-auto focus-visible:outline-none w-56`}
                   id="editor"
                 />
               }

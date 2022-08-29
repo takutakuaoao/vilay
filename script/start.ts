@@ -11,6 +11,8 @@ const server = express()
 const compiler = webpack(rendererConfig)
 const port = getPort()
 
+console.log('test')
+
 server.use(
   devMiddleware(compiler, {
     publicPath: rendererConfig.output?.publicPath,

@@ -65,7 +65,7 @@ export const main = merge({}, commonConfig, {
 
 export const renderer = merge({}, commonConfig, {
   entry: { renderer: path.resolve(__dirname, 'src/workspace/index') },
-  target: 'electron-renderer',
+  target: 'web',
   module: {
     rules: [
       {

@@ -27,7 +27,7 @@ export class AppWindow {
       backgroundColor: '#fff',
       webPreferences: {
         disableBlinkFeatures: 'Auxclick',
-        nodeIntegration: true,
+        nodeIntegration: false,
         spellcheck: true,
         contextIsolation: false,
       },

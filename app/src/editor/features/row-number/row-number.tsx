@@ -8,6 +8,7 @@ import {
 
 type Option = {
   cursorRowNumber?: number
+  cursorHighLightWidth?: number
 }
 
 type Props = {
@@ -44,7 +45,10 @@ export const RowNumber = ({ className, option }: Props) => {
               {value}
             </div>
             {isMatchCursorRow ? (
-              <CursorHighlight testIdRowNumber={value} />
+              <CursorHighlight
+                testIdRowNumber={value}
+                width={option?.cursorHighLightWidth}
+              />
             ) : (
               ''
             )}
