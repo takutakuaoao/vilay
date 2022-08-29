@@ -1,12 +1,18 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import * as React from 'react'
 import { $getRoot } from 'lexical'
+import {
+  CursorHighlight,
+  CursorRowClassName,
+} from '../cursor-row-highlight/cursor-overlay-ui'
+
+type Option = {
+  cursorRowNumber?: number
+}
 
 type Props = {
   className: string
-  option?: {
-    cursorRowNumber?: number
-  }
+  option?: Option
 }
 
 export const RowNumber = ({ className, option }: Props) => {
@@ -30,20 +36,15 @@ export const RowNumber = ({ className, option }: Props) => {
     <div className={className}>
       {numberList.map(value => {
         const rowId = `row-number-${value}`
+        const isMatchCursorRow = isCursorRow(value, option)
 
         return (
           <div data-testid={rowId} key={value} className="relative">
-            <div
-              className={
-                value === option?.cursorRowNumber
-                  ? 'theme-active-cursor-row'
-                  : ''
-              }
-            >
+            <div className={isMatchCursorRow ? CursorRowClassName : ''}>
               {value}
             </div>
-            {value === option?.cursorRowNumber ? (
-              <CursorHighlight testIdName={`cursor-row-${value}`} />
+            {isMatchCursorRow ? (
+              <CursorHighlight testIdRowNumber={value} />
             ) : (
               ''
             )}
@@ -54,15 +55,10 @@ export const RowNumber = ({ className, option }: Props) => {
   )
 }
 
-type CursorHighLightProps = {
-  testIdName: string
-}
+function isCursorRow(rowValue: number, option?: Option): boolean {
+  if (option === null || option?.cursorRowNumber === null) {
+    return false
+  }
 
-const CursorHighlight = ({ testIdName }: CursorHighLightProps) => {
-  return (
-    <div
-      className="absolute -left-4 top-0 h-[24px] w-screen theme-cursor-row-highlight"
-      data-testid={testIdName}
-    ></div>
-  )
+  return rowValue === option?.cursorRowNumber
 }
