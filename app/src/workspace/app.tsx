@@ -9,11 +9,18 @@ import '../../styles/typography/editor/default-vilay/default-vilay-editor-typogr
 import '../../styles/app.scss'
 // import { Layout } from './features/layout/layout'
 
+const { versions } = window
+
 export const App = () => {
   const initialConfig = {
     namespace: 'Editor',
-    onError: (error: Error) => console.error(error),
+    onError: (error: Error) => {
+      console.error('cause error')
+      console.error(error)
+    },
   }
+
+  versions.node().then(value => console.log(value))
 
   // console.log(Layout.factory())
 

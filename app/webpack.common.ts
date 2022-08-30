@@ -11,7 +11,7 @@ export const externals: string[] = []
 
 const commonConfig: webpack.Configuration = {
   optimization: {
-    emitOnErrors: false,
+    emitOnErrors: true,
   },
   output: {
     filename: '[name].js',
