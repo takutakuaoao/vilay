@@ -3,8 +3,10 @@ import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { Editor } from '../editor/ui/editor'
 import { FileTree } from '../features/file-tree/ui/file-tree'
 
-import '../../styles/app.scss'
 import '../../styles/theme/workspace/default-vilay/default-vilay-workspace-theme.scss'
+import '../../styles/theme/editor/default-vilay/default-vilay-editor-theme.scss'
+import '../../styles/typography/editor/default-vilay/default-vilay-editor-typography.scss'
+import '../../styles/app.scss'
 // import { Layout } from './features/layout/layout'
 
 export const App = () => {

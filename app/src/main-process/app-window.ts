@@ -16,6 +16,7 @@ export class AppWindow {
       maximize: false,
     })
 
+    console.log(path.resolve(__dirname, 'preload.js'))
     const windowOptions: Electron.BrowserWindowConstructorOptions = {
       x: savedWindowState.x,
       y: savedWindowState.y,
@@ -29,7 +30,9 @@ export class AppWindow {
         disableBlinkFeatures: 'Auxclick',
         nodeIntegration: false,
         spellcheck: true,
-        contextIsolation: false,
+        contextIsolation: true,
+        // preload: encodePathAsUrl(__dirname, 'preload.js'),
+        preload: path.resolve(__dirname, 'preload.js'),
       },
       acceptFirstMouse: true,
     }

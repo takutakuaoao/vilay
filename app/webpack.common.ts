@@ -65,7 +65,7 @@ export const main = merge({}, commonConfig, {
 
 export const renderer = merge({}, commonConfig, {
   entry: { renderer: path.resolve(__dirname, 'src/workspace/index') },
-  target: 'web',
+  target: 'electron-renderer',
   module: {
     rules: [
       {
@@ -86,6 +86,18 @@ export const renderer = merge({}, commonConfig, {
     new webpack.DefinePlugin(
       Object.assign({}, replacements, {
         __PROCESS_KIND__: JSON.stringify('renderer'),
+      })
+    ),
+  ],
+})
+
+export const preload = merge({}, commonConfig, {
+  entry: { preload: path.resolve(__dirname, 'src/main-process/preload') },
+  target: 'electron-preload',
+  plugins: [
+    new webpack.DefinePlugin(
+      Object.assign({}, replacements, {
+        __PROCESS_KIND__: JSON.stringify('preload'),
       })
     ),
   ],

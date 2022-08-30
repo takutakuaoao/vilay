@@ -3,8 +3,6 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
 import { AutoFocus } from '../features/auto-focus/auto-focus'
 
-import '../../../styles/theme/editor/default-vilay/default-vilay-editor-theme.scss'
-import '../../../styles/typography/editor/default-vilay/default-vilay-editor-typography.scss'
 import { RowNumber } from '../features/row-number/row-number'
 import { useCursorRowHighlight } from '../features/cursor-row-highlight/cursor-row-highlight'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
