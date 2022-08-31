@@ -29,6 +29,7 @@ export class AppWindow {
         disableBlinkFeatures: 'Auxclick',
         spellcheck: true,
         preload: path.resolve(__dirname, 'preload.js'),
+        sandbox: true,
         // preload: encodePathAsUrl(__dirname, 'preload.js'),
       },
       acceptFirstMouse: true,

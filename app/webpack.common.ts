@@ -94,6 +94,30 @@ export const renderer = merge({}, commonConfig, {
 export const preload = merge({}, commonConfig, {
   entry: { preload: path.resolve(__dirname, 'src/main-process/preload') },
   target: 'electron-preload',
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        include: path.resolve(__dirname, 'src'),
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              configFile: 'preload.tsconfig.json',
+            },
+          },
+        ],
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.node$/,
+        loader: 'awesome-node-loader',
+        options: {
+          name: '[name].[ext]',
+        },
+      },
+    ],
+  },
   plugins: [
     new webpack.DefinePlugin(
       Object.assign({}, replacements, {
