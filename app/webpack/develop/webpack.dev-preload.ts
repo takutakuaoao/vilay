@@ -1,38 +1,13 @@
 import webpack from 'webpack'
 import path from 'path'
+import merge from 'webpack-merge'
+import { commonConfig } from './webpack.dev-common'
 
-const preloadConfig: webpack.Configuration = {
+const preloadConfig: webpack.Configuration = merge({}, commonConfig, {
   entry: {
     preload: path.resolve(__dirname, '..', '..', 'src/main-process/preload'),
   },
-  mode: 'development',
-  devtool: 'source-map',
   target: 'electron-preload',
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, '..', '..', '..', 'out'),
-  },
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        include: path.resolve(__dirname, '..', '..', 'src'),
-        use: [
-          {
-            loader: 'ts-loader',
-          },
-        ],
-        exclude: /node_modules/,
-      },
-    ],
-  },
-  resolve: {
-    extensions: ['.js', '.ts', '.tsx'],
-  },
-  node: {
-    __dirname: false,
-    __filename: false,
-  },
   plugins: [
     new webpack.DefinePlugin(
       Object.assign(
@@ -43,7 +18,7 @@ const preloadConfig: webpack.Configuration = {
       )
     ),
   ],
-}
+})
 
 // eslint-disable-next-line no-restricted-syntax
 export default [preloadConfig]

@@ -28,6 +28,7 @@
   },
   "scripts": {
     "compile:dev-main": "cross-env TS_NODE_PROJECT=script/tsconfig.json parallel-webpack --config app/webpack/develop/webpack.dev-main.ts",
+    "compile:dev-renderer": "cross-env TS_NODE_PROJECT=script/tsconfig.json parallel-webpack --config app/webpack/develop/webpack.dev-renderer.ts",
     "compile:dev-preload": "cross-env TS_NODE_PROJECT=script/tsconfig.json parallel-webpack --config app/webpack/develop/webpack.dev-preload.ts",
     "compile:dev": "cross-env NODE_ENV=development TS_NODE_PROJECT=script/tsconfig.json parallel-webpack --config app/webpack.development.ts",
     "build:dev": "yarn compile:dev && cross-env NODE_ENV=development ts-node -P script/tsconfig.json script/build.ts",

@@ -1,38 +1,13 @@
 import webpack from 'webpack'
 import path from 'path'
+import merge from 'webpack-merge'
+import { commonConfig } from './webpack.dev-common'
 
-const mainConfig: webpack.Configuration = {
+const mainConfig: webpack.Configuration = merge({}, commonConfig, {
   entry: {
     main: path.resolve(__dirname, '..', '..', 'src/main-process/main'),
   },
-  mode: 'development',
-  devtool: 'source-map',
   target: 'electron-main',
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, '..', '..', '..', 'out'),
-  },
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        include: path.resolve(__dirname, '..', '..', 'src'),
-        use: [
-          {
-            loader: 'ts-loader',
-          },
-        ],
-        exclude: /node_modules/,
-      },
-    ],
-  },
-  resolve: {
-    extensions: ['.js', '.ts', '.tsx'],
-  },
-  node: {
-    __dirname: false,
-    __filename: false,
-  },
   plugins: [
     new webpack.DefinePlugin(
       Object.assign(
@@ -43,9 +18,7 @@ const mainConfig: webpack.Configuration = {
       )
     ),
   ],
-}
-
-console.log(path.resolve(__dirname, '..', '..', 'src'))
+})
 
 // eslint-disable-next-line no-restricted-syntax
 export default [mainConfig]
