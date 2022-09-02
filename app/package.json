@@ -9,6 +9,7 @@
   "dependencies": {
     "@codemirror/commands": "^6.1.0",
     "@codemirror/state": "^6.1.1",
+    "@codemirror/theme-one-dark": "^6.0.0",
     "@codemirror/view": "^6.2.2",
     "@lexical/react": "^0.3.11",
     "app-path": "^4.0.0",
