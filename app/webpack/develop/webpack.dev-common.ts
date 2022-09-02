@@ -29,4 +29,16 @@ export const commonConfig: webpack.Configuration = {
     __dirname: false,
     __filename: false,
   },
+  plugins: [
+    new webpack.DefinePlugin(
+      Object.assign(
+        {},
+        {
+          __DARWIN__: process.platform === 'darwin',
+          __WIN32__: process.platform === 'win32',
+          __LINUX__: process.platform === 'linux',
+        }
+      )
+    ),
+  ],
 }

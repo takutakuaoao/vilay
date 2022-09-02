@@ -1,7 +1,6 @@
 import { app } from 'electron'
 // eslint-disable-next-line no-restricted-imports
 import { ipcMain } from 'electron'
-// import * as ipcMain from './ipc-main'
 import { AppWindow } from './app-window'
 import log from 'electron-log'
 
