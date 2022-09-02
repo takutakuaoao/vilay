@@ -11,7 +11,7 @@ export const Editor = ({ width }: Props) => {
   const parent = React.useRef<HTMLDivElement>(null)
   React.useEffect(() => {
     const startState = EditorState.create({
-      doc: 'Hello World',
+      doc: '',
       extensions: [keymap.of(defaultKeymap)],
     })
     new EditorView({
