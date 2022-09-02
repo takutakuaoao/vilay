@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test'
 import { Locator, Page, _electron } from 'playwright'
+import { FileTree } from './file-tree'
 
 type WindowSize = {
   width: number
@@ -22,10 +23,12 @@ export class Application {
 
   private readonly window: Page
   private readonly editor: Locator
+  public readonly fileTree: FileTree
 
   private constructor(window: Page) {
     this.window = window
     this.editor = this.window.locator('data-testid=editor')
+    this.fileTree = FileTree.factory(window)
   }
 
   public async doType(input: string | string[]) {

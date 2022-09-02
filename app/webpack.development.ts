@@ -8,6 +8,7 @@ const config: webpack.Configuration = {
 }
 
 const mainConfig = merge({}, common.main, config)
+const preloadConfig = merge({}, common.preload, config)
 
 const getRendererEntryPoint = () => {
   const entry = common.renderer.entry as webpack.EntryObject
@@ -53,4 +54,4 @@ const rendererConfig = merge({}, common.renderer, config, {
 })
 
 // eslint-disable-next-line no-restricted-syntax
-export default [mainConfig, rendererConfig]
+export default [mainConfig, rendererConfig, preloadConfig]

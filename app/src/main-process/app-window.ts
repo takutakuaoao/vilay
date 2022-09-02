@@ -27,9 +27,10 @@ export class AppWindow {
       backgroundColor: '#fff',
       webPreferences: {
         disableBlinkFeatures: 'Auxclick',
-        nodeIntegration: true,
         spellcheck: true,
-        contextIsolation: false,
+        preload: path.resolve(__dirname, 'preload.js'),
+        sandbox: true,
+        // preload: encodePathAsUrl(__dirname, 'preload.js'),
       },
       acceptFirstMouse: true,
     }
