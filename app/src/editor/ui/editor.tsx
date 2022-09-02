@@ -5,9 +5,9 @@ export const Editor = () => {
   const parent = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
-    const editor = CoreEditor.factory(parent.current!).init()
+    const editor = CoreEditor.factory(parent.current!)
 
-    return () => editor.destroyView()
+    return () => editor.destroy()
   }, [parent])
 
   return (
