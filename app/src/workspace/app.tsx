@@ -1,5 +1,4 @@
 import * as React from 'react'
-// import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { Editor } from '../editor/ui/editor'
 import { FileTree } from '../features/file-tree/ui/file-tree'
 
@@ -13,11 +12,15 @@ const { versions } = window
 export const App = () => {
   versions.node().then(value => console.log(value))
 
+  const sideBarWidth = 300
+  const sideWidthClass = `min-w-[${sideBarWidth}px]`
+  const editorWidthClass = `w-[calc(100%-300px)]`
+
   return (
     <div id="default-vilay-workspace-theme">
-      <div className="flex">
-        <FileTree addingClassName="w-[300px]" />
-        <Editor />
+      <div className="flex w-screen">
+        <FileTree addingClassName={sideWidthClass} />
+        <Editor addClass={editorWidthClass} />
       </div>
     </div>
   )
