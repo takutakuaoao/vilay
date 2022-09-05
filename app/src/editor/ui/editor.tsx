@@ -1,7 +1,11 @@
 import * as React from 'react'
 import { CoreEditor } from '../core/core-editor'
 
-export const Editor = () => {
+type Props = {
+  addClass: string
+}
+
+export const Editor = ({ addClass }: Props) => {
   const parent = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
@@ -12,7 +16,7 @@ export const Editor = () => {
 
   return (
     <>
-      <div id="code-mirror" ref={parent} className="w-screen"></div>
+      <div id="code-mirror" ref={parent} className={addClass}></div>
     </>
   )
 }
