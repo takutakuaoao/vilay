@@ -10,7 +10,7 @@ export const FileTree = ({ addingClassName }: Props) => {
       data-testid="file-tree"
       className={`${addingClassName} workspace-theme-background`}
     >
-      <div>Project</div>
+      <div></div>
     </div>
   )
 }

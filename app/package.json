@@ -11,11 +11,9 @@
     "@codemirror/state": "^6.1.1",
     "@codemirror/theme-one-dark": "^6.0.0",
     "@codemirror/view": "^6.2.2",
-    "@lexical/react": "^0.3.11",
     "app-path": "^4.0.0",
     "electron-log": "^4.4.8",
     "electron-window-state": "^5.0.3",
-    "lexical": "^0.3.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tslib": "^2.4.0"

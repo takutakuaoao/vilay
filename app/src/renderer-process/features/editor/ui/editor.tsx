@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { CoreEditor } from '../core/core-editor'
+import { createEditor } from '../lib/codemirror'
 
 type Props = {
   addClass: string
@@ -9,9 +9,9 @@ export const Editor = ({ addClass }: Props) => {
   const parent = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
-    const editor = CoreEditor.factory(parent.current!)
+    const destroy = createEditor(parent.current!)
 
-    return () => editor.destroy()
+    return () => destroy()
   }, [parent])
 
   return (
