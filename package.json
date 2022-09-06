@@ -5,16 +5,21 @@
   "main": "main.js",
   "author": "Takuya Aotsuka",
   "license": "MIT",
+  "type": "module",
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.18.6",
+    "@babel/preset-env": "^7.19.0",
     "@playwright/test": "^1.25.0",
     "@types/express": "^4.17.13",
     "@types/fs-extra": "^9.0.13",
+    "@types/jest": "^29.0.0",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/source-map-support": "^0.5.4",
     "@types/webpack": "^5.28.0",
     "@types/webpack-hot-middleware": "^2.25.6",
     "@types/webpack-merge": "^5.0.0",
+    "babel-jest": "^29.0.2",
     "electron": "^20.0.2",
     "electron-chromedriver": "20",
     "electron-packager": "^15.5.1",
@@ -31,7 +36,8 @@
     "compile:dev": "cross-env NODE_ENV=development TS_NODE_PROJECT=script/tsconfig.json parallel-webpack --config app/webpack.development.ts",
     "build:dev": "yarn compile:dev && cross-env NODE_ENV=development ts-node -P script/tsconfig.json script/build.ts",
     "start": "cross-env NODE_ENV=development ts-node -P script/tsconfig.json script/start.ts",
-    "test": "playwright test"
+    "e2e": "playwright test",
+    "test": "node --experimental-vm-modules $(yarn bin jest)"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.33.0",
