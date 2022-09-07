@@ -39,6 +39,32 @@ describe('cssClass', () => {
 })
 
 describe('positionMarker', () => {
-  test.todo('method2: *xx*の場合に各*のマーカー位置の始まりと終わりを返す')
-  test.todo('method2: **xx**の場合に各**マーカー位置の始まりと終わりを返す')
+  const dataSet = [
+    {
+      test: '*xx*の場合',
+      position: { from: 1, to: 7 },
+      text: '*bold*',
+      expect: [
+        { from: 1, to: 2 },
+        { from: 6, to: 7 },
+      ],
+    },
+    {
+      test: '**xx**の場合',
+      position: { from: 1, to: 9 },
+      text: '**bold**',
+      expect: [
+        { from: 1, to: 3 },
+        { from: 7, to: 9 },
+      ],
+    },
+  ]
+  describe.each(dataSet)('各*のマーカー位置の始まりと終わりを返す', data => {
+    test(data.test, () => {
+      const bold = BoldToken.factory(data.position, data.text, 'keyword') as BoldToken
+      const positions = bold.positionMaker()
+
+      expect(positions).toEqual(data.expect)
+    })
+  })
 })
