@@ -1,15 +1,10 @@
 import { StreamLanguage, syntaxTree } from '@codemirror/language'
 import { Range } from '@codemirror/state'
-import {
-  Decoration,
-  DecorationSet,
-  EditorView,
-  ViewPlugin,
-  ViewUpdate,
-} from '@codemirror/view'
+import { Decoration, DecorationSet, EditorView, ViewPlugin, ViewUpdate } from '@codemirror/view'
 import { asciidoc } from 'codemirror-asciidoc'
 import { HeadingToken } from './base/heading-token'
 import { SyntaxNodeRef } from '@lezer/common'
+import { BoldToken } from './base/bold-token'
 
 const TOKEN_MARK_CSS = 'cm-token-mark'
 
@@ -19,16 +14,26 @@ const asciidocHeading = (view: EditorView) => {
     syntaxTree(view.state).iterate({
       enter(node) {
         const headingToken = makeHeadingToken(node, nodeText(view, node))
-
         if (headingToken) {
           decorations.push(makeHeadingRange(headingToken))
           decorations.push(makeMarkRange(headingToken))
+        }
+
+        const boldToken = makeBoldToken(node, nodeText(view, node))
+        if (boldToken) {
+          decorations.push(makeBoldRange(boldToken))
+          decorations.push(makeRange(boldToken.positionMaker()[0], TOKEN_MARK_CSS))
+          decorations.push(makeRange(boldToken.positionMaker()[1], TOKEN_MARK_CSS))
         }
       },
     })
   }
 
   return Decoration.set(decorations)
+}
+
+function makeBoldRange(token: BoldToken): Range<Decoration> {
+  return makeRange(token.positionToken(), token.cssClass())
 }
 
 function makeHeadingRange(token: HeadingToken): Range<Decoration> {
@@ -39,10 +44,7 @@ function makeMarkRange(token: HeadingToken): Range<Decoration> {
   return makeRange(token.positionMark(), TOKEN_MARK_CSS)
 }
 
-function makeRange(
-  position: { from: number; to: number },
-  cssClass: string
-): Range<Decoration> {
+function makeRange(position: { from: number; to: number }, cssClass: string): Range<Decoration> {
   return Decoration.mark({
     class: cssClass,
   }).range(position.from, position.to)
@@ -52,10 +54,11 @@ function nodeText(view: EditorView, node: SyntaxNodeRef): string {
   return view.state.sliceDoc(node.from, node.to)
 }
 
-function makeHeadingToken(
-  node: SyntaxNodeRef,
-  text: string
-): HeadingToken | false {
+function makeBoldToken(node: SyntaxNodeRef, text: string): BoldToken | false {
+  return BoldToken.factory({ from: node.from, to: node.to }, text, node.name)
+}
+
+function makeHeadingToken(node: SyntaxNodeRef, text: string): HeadingToken | false {
   return HeadingToken.factory({ from: node.from, to: node.to }, text, node.name)
 }
 

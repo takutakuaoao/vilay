@@ -18,7 +18,10 @@ describe('factory', () => {
       test: '成功時',
       text: '**bold**',
       tokenType: 'keyword',
-      assert: (result: BoldToken | false) => expect(result).toBeInstanceOf(BoldToken),
+      assert: (result: BoldToken | false) => {
+        expect(result).toBeInstanceOf(BoldToken)
+        expect((result as BoldToken).boldLevel).toBe(2)
+      },
     },
   ]
   describe.each(dataSet)('dataProvider dataSet', data => {

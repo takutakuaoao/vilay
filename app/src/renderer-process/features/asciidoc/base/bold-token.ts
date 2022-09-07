@@ -1,16 +1,14 @@
 import { Position, Token } from './token'
 
 type BoldLevel = 1 | 2
-const BOLD_LEVEL_LIST: BoldLevel[] = [1, 2]
+const BOLD_LEVEL_LIST: BoldLevel[] = [2, 1]
 
 function validation(text: string, tokenType: string): BoldLevel | false {
   if (tokenType !== 'keyword') {
     return false
   }
 
-  // 昇順でチェックすると**xx**がboldLevel=1になるバグを回避するため
-  // BOLD_LEVEL_LIST.reverse()で降順に並び替えている
-  for (const level of BOLD_LEVEL_LIST.reverse()) {
+  for (const level of BOLD_LEVEL_LIST) {
     const reg = `^\\*{${level}}.*\\*{${level}}$`
     if (new RegExp(reg).test(text)) {
       return level
@@ -26,7 +24,7 @@ export class BoldToken extends Token {
     return boldLevel ? new BoldToken(position, text, boldLevel) : false
   }
 
-  private constructor(position: Position, text: string, private readonly boldLevel: BoldLevel) {
+  private constructor(position: Position, text: string, public readonly boldLevel: BoldLevel) {
     super(position, text)
   }
 
