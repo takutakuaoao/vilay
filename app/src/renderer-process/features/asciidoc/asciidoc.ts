@@ -8,16 +8,27 @@ import {
   ViewUpdate,
 } from '@codemirror/view'
 import { asciidoc } from 'codemirror-asciidoc'
+import { getHeadingCSSClass } from './base'
 
-const headingDecorationMark = Decoration.mark({ class: 'cm-heading-1' })
+// const headingDecorationMark = Decoration.mark({ class: 'cm-heading-1' })
 
 const asciidocHeading = (view: EditorView) => {
   const decorations: Range<Decoration>[] = []
   for (const {} of view.visibleRanges) {
     syntaxTree(view.state).iterate({
       enter(node) {
-        if (node.name === 'heading') {
-          const deco = headingDecorationMark.range(node.from, node.to)
+        console.log(node)
+        const content = view.state.sliceDoc(node.from, node.to)
+        const cssClass = getHeadingCSSClass({
+          tokenName: node.name,
+          text: content,
+        })
+        // if (node.name === 'heading') {
+        if (cssClass) {
+          const deco = Decoration.mark({ class: cssClass }).range(
+            node.from,
+            node.to
+          )
           decorations.push(deco)
         }
       },

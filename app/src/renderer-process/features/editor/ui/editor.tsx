@@ -16,7 +16,12 @@ export const Editor = ({ addClass }: Props) => {
 
   return (
     <>
-      <div id="code-mirror" ref={parent} className={addClass}></div>
+      <div
+        id="code-mirror"
+        data-testid="editor"
+        ref={parent}
+        className={addClass}
+      ></div>
     </>
   )
 }

@@ -27,7 +27,9 @@ export class Application {
 
   private constructor(window: Page) {
     this.window = window
-    this.editor = this.window.locator('data-testid=editor')
+    this.editor = this.window
+      .locator('data-testid=editor')
+      .locator('.cm-content')
     this.fileTree = FileTree.factory(window)
   }
 
@@ -61,29 +63,9 @@ export class Application {
     await this.editor.press('ArrowUp')
   }
 
-  public async isFocus() {
-    await expect(this.editor).toBeFocused()
-  }
-
   public async hasText(input: string | string[]) {
     const expectText = Array.isArray(input) ? input.join('\n') : input
     expect(await this.editor.innerText()).toBe(expectText)
-  }
-
-  public async hasMarkCursorRow(rowNumber: number) {
-    const isVisible = await this.window.isVisible(
-      `data-testid=cursor-row-${rowNumber}`
-    )
-
-    expect(isVisible).toBeTruthy()
-  }
-
-  public async hasNotMarkCursorRow(rowNumber: number) {
-    const isVisible = await this.window.isHidden(
-      `data-testid=cursor-row-${rowNumber}`
-    )
-
-    expect(isVisible).toBeTruthy()
   }
 
   public async canScroll(direction: 'bottom' | 'right') {
@@ -103,11 +85,8 @@ export class Application {
     expect(scrollSize > 0).toBeTruthy()
   }
 
-  public async expectShowRowNumberLane(expectNumber: number[]) {
-    for (const value of expectNumber) {
-      const rowNumber = this.window.locator(`data-testid=row-number-${value}`)
-      expect(await rowNumber.innerText()).toBe(value.toString())
-    }
+  public async hasClass(expectClass: string) {
+    await expect(this.editor.locator(expectClass)).toBeVisible()
   }
 
   public async stop() {

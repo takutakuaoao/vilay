@@ -1,3 +1,5 @@
+type HeadingLevel = 1 | 2 | 3 | 4 | 5
+
 type HeadingTokenName = 'heading'
 type NoneHeadingTokenName = Exclude<string, HeadingTokenName>
 type Token = {
@@ -13,7 +15,6 @@ type HeadingCSSClass =
   | 'cm-header5'
 type NoneHeadingCSSClass = false
 
-type HeadingLevel = 1 | 2 | 3 | 4 | 5
 const HeadingCSSClassList: Record<HeadingLevel, HeadingCSSClass> = {
   '1': 'cm-header1',
   '2': 'cm-header2',
