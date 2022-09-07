@@ -4,6 +4,7 @@ semi: false
 proseWrap: always
 endOfLine: auto
 arrowParens: avoid
+printWidth: 200
 
 overrides:
   - files: '*.scss'
