@@ -60,7 +60,7 @@ export const main = merge({}, commonConfig, {
 })
 
 export const renderer = merge({}, commonConfig, {
-  entry: { renderer: path.resolve(__dirname, 'src/workspace/index') },
+  entry: { renderer: path.resolve(__dirname, 'src/renderer-process/index') },
   target: 'electron-renderer',
   module: {
     rules: [
