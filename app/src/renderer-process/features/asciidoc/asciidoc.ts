@@ -9,15 +9,7 @@ import {
 } from '@codemirror/view'
 import { asciidoc } from 'codemirror-asciidoc'
 
-// type HeadingTokenName = 'heading'
-// type HeadingLevel = 1 | 2 | 3 | 4 | 5
-// type HeadingChar = '='
-
 const headingDecorationMark = Decoration.mark({ class: 'cm-heading-1' })
-
-export const isHeadingStyle = (text: string): boolean => {
-  return false
-}
 
 const asciidocHeading = (view: EditorView) => {
   const decorations: Range<Decoration>[] = []
@@ -57,7 +49,7 @@ const headingStylePlugin = () => {
 }
 
 const parserPlugin = () => {
-  return StreamLanguage.define(asciidoc)
+  return StreamLanguage.define(asciidoc as any)
 }
 
 export const asciidocPlugins = () => {
