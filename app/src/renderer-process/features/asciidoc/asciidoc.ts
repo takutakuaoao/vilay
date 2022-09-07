@@ -5,6 +5,7 @@ import { asciidoc } from 'codemirror-asciidoc'
 import { HeadingToken } from './base/heading-token'
 import { SyntaxNodeRef } from '@lezer/common'
 import { BoldToken } from './base/bold-token'
+import { ItalicToken } from './base/italic-token'
 
 const TOKEN_MARK_CSS = 'cm-token-mark'
 
@@ -25,11 +26,22 @@ const asciidocHeading = (view: EditorView) => {
           decorations.push(makeRange(boldToken.positionMaker()[0], TOKEN_MARK_CSS))
           decorations.push(makeRange(boldToken.positionMaker()[1], TOKEN_MARK_CSS))
         }
+
+        const italicToken = makeItalicToken(node, nodeText(view, node))
+        if (italicToken) {
+          decorations.push(makeItalicRange(italicToken))
+          decorations.push(makeRange(italicToken.positionMaker()[0], TOKEN_MARK_CSS))
+          decorations.push(makeRange(italicToken.positionMaker()[1], TOKEN_MARK_CSS))
+        }
       },
     })
   }
 
   return Decoration.set(decorations)
+}
+
+function makeItalicRange(token: ItalicToken): Range<Decoration> {
+  return makeRange(token.positionToken(), token.cssClass())
 }
 
 function makeBoldRange(token: BoldToken): Range<Decoration> {
@@ -52,6 +64,10 @@ function makeRange(position: { from: number; to: number }, cssClass: string): Ra
 
 function nodeText(view: EditorView, node: SyntaxNodeRef): string {
   return view.state.sliceDoc(node.from, node.to)
+}
+
+function makeItalicToken(node: SyntaxNodeRef, text: string): ItalicToken | false {
+  return ItalicToken.factory({ from: node.from, to: node.to }, text, node.name)
 }
 
 function makeBoldToken(node: SyntaxNodeRef, text: string): BoldToken | false {

@@ -60,10 +60,13 @@ const baseTheme = (): Extension => {
       fontWeight: 'bold',
     },
     '.cm-token-mark': {
-      opacity: 0.4,
+      opacity: 0.3,
     },
     '.cm-bold': {
       fontWeight: 'bold',
+    },
+    '.cm-italic': {
+      fontStyle: 'italic',
     },
   })
 }
