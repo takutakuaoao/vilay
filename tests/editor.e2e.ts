@@ -6,5 +6,6 @@ test.describe('ヘッダー形式のテキストを入力するとヘッダー�
     const app = await Application.factory()
     await app.doType('= header')
     await app.hasClass('.cm-header1')
+    await app.hasClass('.cm-token-mark')
   })
 })

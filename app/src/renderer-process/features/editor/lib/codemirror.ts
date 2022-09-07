@@ -57,6 +57,25 @@ const baseTheme = (): Extension => {
     '.cm-gutters': {
       paddingLeft: '10px',
     },
+    '.cm-header1': {
+      fontSize: '32px',
+      fontWeight: 'bold',
+    },
+    '.cm-header2': {
+      fontSize: '25px',
+      fontWeight: 'bold',
+    },
+    '.cm-header3': {
+      fontSize: '20px',
+      fontWeight: 'bold',
+    },
+    '.cm-header4': {
+      fontSize: '18px',
+      fontWeight: 'bold',
+    },
+    '.cm-token-mark': {
+      opacity: 0.2,
+    },
   })
 }
 

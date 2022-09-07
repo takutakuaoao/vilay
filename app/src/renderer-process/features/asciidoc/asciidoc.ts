@@ -8,34 +8,55 @@ import {
   ViewUpdate,
 } from '@codemirror/view'
 import { asciidoc } from 'codemirror-asciidoc'
-import { getHeadingCSSClass } from './base'
+import { HeadingToken } from './base/heading-token'
+import { SyntaxNodeRef } from '@lezer/common'
 
-// const headingDecorationMark = Decoration.mark({ class: 'cm-heading-1' })
+const TOKEN_MARK_CSS = 'cm-token-mark'
 
 const asciidocHeading = (view: EditorView) => {
   const decorations: Range<Decoration>[] = []
   for (const {} of view.visibleRanges) {
     syntaxTree(view.state).iterate({
       enter(node) {
-        console.log(node)
-        const content = view.state.sliceDoc(node.from, node.to)
-        const cssClass = getHeadingCSSClass({
-          tokenName: node.name,
-          text: content,
-        })
-        // if (node.name === 'heading') {
-        if (cssClass) {
-          const deco = Decoration.mark({ class: cssClass }).range(
-            node.from,
-            node.to
-          )
-          decorations.push(deco)
+        const headingToken = makeHeadingToken(node, nodeText(view, node))
+
+        if (headingToken) {
+          decorations.push(makeHeadingRange(headingToken))
+          decorations.push(makeMarkRange(headingToken))
         }
       },
     })
   }
 
   return Decoration.set(decorations)
+}
+
+function makeHeadingRange(token: HeadingToken): Range<Decoration> {
+  return makeRange(token.positionToken(), token.cssClass())
+}
+
+function makeMarkRange(token: HeadingToken): Range<Decoration> {
+  return makeRange(token.positionMark(), TOKEN_MARK_CSS)
+}
+
+function makeRange(
+  position: { from: number; to: number },
+  cssClass: string
+): Range<Decoration> {
+  return Decoration.mark({
+    class: cssClass,
+  }).range(position.from, position.to)
+}
+
+function nodeText(view: EditorView, node: SyntaxNodeRef): string {
+  return view.state.sliceDoc(node.from, node.to)
+}
+
+function makeHeadingToken(
+  node: SyntaxNodeRef,
+  text: string
+): HeadingToken | false {
+  return HeadingToken.factory({ from: node.from, to: node.to }, text, node.name)
 }
 
 const headingStylePlugin = () => {
