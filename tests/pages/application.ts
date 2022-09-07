@@ -27,9 +27,7 @@ export class Application {
 
   private constructor(window: Page) {
     this.window = window
-    this.editor = this.window
-      .locator('data-testid=editor')
-      .locator('.cm-content')
+    this.editor = this.window.locator('data-testid=editor').locator('.cm-content')
     this.fileTree = FileTree.factory(window)
   }
 
@@ -86,7 +84,7 @@ export class Application {
   }
 
   public async hasClass(expectClass: string) {
-    await expect(this.editor.locator(expectClass)).toBeVisible()
+    await expect(this.editor.locator(expectClass).first()).toBeVisible()
   }
 
   public async stop() {
