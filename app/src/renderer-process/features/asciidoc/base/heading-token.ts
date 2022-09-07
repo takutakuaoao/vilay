@@ -50,7 +50,7 @@ export class HeadingToken extends Token {
     }
   }
 
-  public cssClass(): HeadingCSSClass {
+  public cssClass(): string {
     return HEADING_CSS_LIST[this.level]
   }
 }

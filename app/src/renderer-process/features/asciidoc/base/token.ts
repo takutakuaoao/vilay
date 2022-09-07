@@ -4,6 +4,8 @@ export type Position = {
 }
 
 export abstract class Token {
+  public abstract cssClass(): string
+
   public constructor(protected readonly position: Position, protected readonly text: string) {}
 
   protected positionToken(): Position {

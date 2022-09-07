@@ -31,7 +31,11 @@ describe('factory', () => {
 })
 
 describe('cssClass', () => {
-  test.todo('method1: cm-boldを返す')
+  test('cm-boldを返す', () => {
+    const bold = BoldToken.factory({ from: 1, to: 3 }, '**bold**', 'keyword') as BoldToken
+
+    expect(bold.cssClass()).toBe('cm-bold')
+  })
 })
 
 describe('positionMarker', () => {

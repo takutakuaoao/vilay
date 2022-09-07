@@ -9,4 +9,8 @@ export class BoldToken extends Token {
   public constructor(position: Position, text: string) {
     super(position, text)
   }
+
+  public cssClass(): string {
+    return 'cm-bold'
+  }
 }
