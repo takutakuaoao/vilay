@@ -4,26 +4,29 @@ import { Decoration, DecorationSet, EditorView, ViewPlugin, ViewUpdate } from '@
 import { asciidoc } from 'codemirror-asciidoc'
 import { HeadingToken } from './base/heading-token'
 import { SyntaxNodeRef } from '@lezer/common'
-import { BoldToken } from './base/bold-token'
+import { LiteralToken, LiteralTokenName } from './base/literal-token'
+import { Token } from './base/token'
 
 const TOKEN_MARK_CSS = 'cm-token-mark'
 
 const asciidocHeading = (view: EditorView) => {
-  const decorations: Range<Decoration>[] = []
+  let decorations: Range<Decoration>[] = []
   for (const {} of view.visibleRanges) {
     syntaxTree(view.state).iterate({
       enter(node) {
         const headingToken = makeHeadingToken(node, nodeText(view, node))
         if (headingToken) {
-          decorations.push(makeHeadingRange(headingToken))
-          decorations.push(makeMarkRange(headingToken))
+          decorations = setDecorations(headingToken, decorations)
         }
 
-        const boldToken = makeBoldToken(node, nodeText(view, node))
+        const boldToken = makeLiteralToken('bold', node, nodeText(view, node))
         if (boldToken) {
-          decorations.push(makeBoldRange(boldToken))
-          decorations.push(makeRange(boldToken.positionMaker()[0], TOKEN_MARK_CSS))
-          decorations.push(makeRange(boldToken.positionMaker()[1], TOKEN_MARK_CSS))
+          decorations = setDecorations(boldToken, decorations)
+        }
+
+        const italicToken = makeLiteralToken('italic', node, nodeText(view, node))
+        if (italicToken) {
+          decorations = setDecorations(italicToken, decorations)
         }
       },
     })
@@ -32,16 +35,17 @@ const asciidocHeading = (view: EditorView) => {
   return Decoration.set(decorations)
 }
 
-function makeBoldRange(token: BoldToken): Range<Decoration> {
-  return makeRange(token.positionToken(), token.cssClass())
+function setDecorations(token: Token, decorations: Range<Decoration>[]): Range<Decoration>[] {
+  decorations.push(makeTokenRange(token))
+  for (const markPosition of token.positionMarker()) {
+    decorations.push(makeRange(markPosition, TOKEN_MARK_CSS))
+  }
+
+  return decorations
 }
 
-function makeHeadingRange(token: HeadingToken): Range<Decoration> {
+function makeTokenRange(token: Token): Range<Decoration> {
   return makeRange(token.positionToken(), token.cssClass())
-}
-
-function makeMarkRange(token: HeadingToken): Range<Decoration> {
-  return makeRange(token.positionMark(), TOKEN_MARK_CSS)
 }
 
 function makeRange(position: { from: number; to: number }, cssClass: string): Range<Decoration> {
@@ -54,8 +58,8 @@ function nodeText(view: EditorView, node: SyntaxNodeRef): string {
   return view.state.sliceDoc(node.from, node.to)
 }
 
-function makeBoldToken(node: SyntaxNodeRef, text: string): BoldToken | false {
-  return BoldToken.factory({ from: node.from, to: node.to }, text, node.name)
+function makeLiteralToken(literalTokenName: LiteralTokenName, node: SyntaxNodeRef, text: string) {
+  return LiteralToken.factory(literalTokenName, { from: node.from, to: node.to }, text, node.name)
 }
 
 function makeHeadingToken(node: SyntaxNodeRef, text: string): HeadingToken | false {

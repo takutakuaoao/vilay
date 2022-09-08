@@ -2,27 +2,15 @@ import { HeadingToken } from '../heading-token'
 
 describe('factory', () => {
   test('テキストの形式があっていない場合はfalseを返す', () => {
-    const result = HeadingToken.factory(
-      { from: 1, to: 2 },
-      '=heading',
-      'heading'
-    )
+    const result = HeadingToken.factory({ from: 1, to: 2 }, '=heading', 'heading')
     expect(result).toBeFalsy()
   })
   test('トークンタイプがheading以外の場合はfalseを返す', () => {
-    const result = HeadingToken.factory(
-      { from: 1, to: 2 },
-      '= heading',
-      'non-heading-type'
-    )
+    const result = HeadingToken.factory({ from: 1, to: 2 }, '= heading', 'non-heading-type')
     expect(result).toBeFalsy()
   })
   test('形式があっている場合はHeadingTokenを返す', () => {
-    const result = HeadingToken.factory(
-      { from: 1, to: 2 },
-      '== heading',
-      'heading'
-    )
+    const result = HeadingToken.factory({ from: 1, to: 2 }, '== heading', 'heading')
     expect(result).toBeInstanceOf(HeadingToken)
   })
 })
@@ -42,23 +30,16 @@ describe('positionMark', () => {
       expect: { from: 1, to: 3 },
     },
   ]
-  describe.each(dataSet)(
-    'ヘッダーのマーク部分（=, == など）のポジションを返す',
-    data => {
-      test(`[No. ${data.id}]`, () => {
-        const headingToken = HeadingToken.factory(
-          data.position,
-          data.text,
-          'heading'
-        ) as HeadingToken
+  describe.each(dataSet)('ヘッダーのマーク部分（=, == など）のポジションを返す', data => {
+    test(`[No. ${data.id}]`, () => {
+      const headingToken = HeadingToken.factory(data.position, data.text, 'heading') as HeadingToken
 
-        const position = headingToken.positionMark()
+      const position = headingToken.positionMarker()[0]
 
-        expect(position.from).toBe(data.expect.from)
-        expect(position.to).toBe(data.expect.to)
-      })
-    }
-  )
+      expect(position.from).toBe(data.expect.from)
+      expect(position.to).toBe(data.expect.to)
+    })
+  })
 })
 
 describe('cssClassName', () => {
@@ -90,17 +71,14 @@ describe('cssClassName', () => {
     },
   ]
 
-  describe.each(testData)(
-    'header形式に合致している場合はHeadingCSSClassを返す',
-    data => {
-      test(`[No. ${data.id}]`, () => {
-        const headingToken = HeadingToken.factory(
-          { from: 1, to: 3 },
-          data.tokenText,
-          'heading'
-        ) as HeadingToken
-        expect(headingToken.cssClass()).toBe(data.expectClassName)
-      })
-    }
-  )
+  describe.each(testData)('header形式に合致している場合はHeadingCSSClassを返す', data => {
+    test(`[No. ${data.id}]`, () => {
+      const headingToken = HeadingToken.factory(
+        { from: 1, to: 3 },
+        data.tokenText,
+        'heading'
+      ) as HeadingToken
+      expect(headingToken.cssClass()).toBe(data.expectClassName)
+    })
+  })
 })

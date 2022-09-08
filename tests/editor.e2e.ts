@@ -15,4 +15,11 @@ test.describe('asciidoc記法に沿ったテキストを入力すると対応す
     await app.hasClass('.cm-bold')
     await app.hasClass('.cm-token-mark')
   })
+
+  test('__italic__ の入力', async () => {
+    const app = await Application.factory()
+    await app.doType('__italic__')
+    await app.hasClass('.cm-italic')
+    await app.hasClass('.cm-token-mark')
+  })
 })
