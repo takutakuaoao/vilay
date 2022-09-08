@@ -2,7 +2,7 @@ import { Position, Token } from './token'
 
 type Level = 1 | 2
 
-type LiteralTokenName = 'bold' | 'italic'
+export type LiteralTokenName = 'bold' | 'italic'
 type TagName = 'keyword' | 'string'
 type Mark = '*' | '_'
 type LiteralTokenType = {
@@ -77,7 +77,7 @@ export class LiteralToken extends Token {
     return this.tokenType.cssClass()
   }
 
-  public positionMaker(): Position[] {
+  public positionMarker(): Position[] {
     return [
       { from: this.position.from, to: this.position.from + this.level },
       { from: this.position.to - this.level, to: this.position.to },

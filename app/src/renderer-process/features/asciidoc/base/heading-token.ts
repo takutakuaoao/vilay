@@ -30,7 +30,11 @@ const validHeadingToken = (text: string, tokenType: string): false | HeadingLeve
 }
 
 export class HeadingToken extends Token {
-  public static factory(position: Position, text: string, tokenType: string): HeadingToken | NonHeadingToken {
+  public static factory(
+    position: Position,
+    text: string,
+    tokenType: string
+  ): HeadingToken | NonHeadingToken {
     const level = validHeadingToken(text, tokenType)
     return level ? new HeadingToken(position, level, text) : false
   }
@@ -39,15 +43,13 @@ export class HeadingToken extends Token {
     super(position, text)
   }
 
-  public positionToken(): Position {
-    return this.position
-  }
-
-  public positionMark(): Position {
-    return {
-      from: this.position.from,
-      to: this.position.from + this.level,
-    }
+  public positionMarker(): Position[] {
+    return [
+      {
+        from: this.position.from,
+        to: this.position.from + this.level,
+      },
+    ]
   }
 
   public cssClass(): string {

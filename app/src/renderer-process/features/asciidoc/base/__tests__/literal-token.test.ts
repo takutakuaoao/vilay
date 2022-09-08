@@ -1,16 +1,16 @@
-import { LiteralToken } from '../literal-token'
+import { LiteralToken, LiteralTokenName } from '../literal-token'
 
 describe('factory', () => {
   const dataSet = [
     {
-      test: '* or ** でテキストが挟まれていない',
+      test: 'テキストがトークンマーク（__, _, *, ** など）で囲まれていない',
       text: 'not-italic',
       tokenType: 'string',
       assert: (result: LiteralToken | false) => expect(result).toBeFalsy(),
     },
     {
-      test: 'トークンタイプがstring以外',
-      text: '__italic__',
+      test: 'トークンタイプが生成できるトークン以外',
+      text: '**italic**',
       tokenType: 'not-keyword',
       assert: (result: LiteralToken | false) => expect(result).toBeFalsy(),
     },
@@ -30,10 +30,19 @@ describe('factory', () => {
       data.assert(result)
     })
   })
+
+  test('_*test*_のテキストを与えると*トークンを保持', () => {
+    //   const token = LiteralToken.factory(
+    //     'italic',
+    //     { from: 1, to: 9 },
+    //     '_*test*_',
+    //     'string'
+    //   ) as LiteralToken
+  })
 })
 
 describe('cssClass', () => {
-  test('cm-italicを返す', () => {
+  test('cm-<literalTokenType>を返す', () => {
     const bold = LiteralToken.factory(
       'italic',
       { from: 1, to: 3 },
@@ -51,30 +60,34 @@ describe('positionMarker', () => {
       test: '_xx_の場合',
       position: { from: 1, to: 9 },
       text: '_italic_',
+      literalTokenName: 'italic',
+      tagName: 'string',
       expect: [
         { from: 1, to: 2 },
         { from: 8, to: 9 },
       ],
     },
     {
-      test: '__xx__の場合',
-      position: { from: 1, to: 11 },
-      text: '__italic__',
+      test: '_xx_の場合',
+      position: { from: 1, to: 9 },
+      text: '**bold**',
+      literalTokenName: 'bold',
+      tagName: 'keyword',
       expect: [
         { from: 1, to: 3 },
-        { from: 9, to: 11 },
+        { from: 7, to: 9 },
       ],
     },
   ]
-  describe.each(dataSet)('各_のマーカー位置の始まりと終わりを返す', data => {
+  describe.each(dataSet)('各マーカー位置の始まりと終わりの位置を返す', data => {
     test(data.test, () => {
       const bold = LiteralToken.factory(
-        'italic',
+        data.literalTokenName as LiteralTokenName,
         data.position,
         data.text,
-        'string'
+        data.tagName
       ) as LiteralToken
-      const positions = bold.positionMaker()
+      const positions = bold.positionMarker()
 
       expect(positions).toEqual(data.expect)
     })
