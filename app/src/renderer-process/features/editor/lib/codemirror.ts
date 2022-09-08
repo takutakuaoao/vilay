@@ -1,6 +1,12 @@
 import { defaultKeymap } from '@codemirror/commands'
 import { EditorState, Extension } from '@codemirror/state'
-import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view'
+import {
+  EditorView,
+  keymap,
+  lineNumbers,
+  highlightActiveLine,
+  highlightActiveLineGutter,
+} from '@codemirror/view'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { asciidocPlugins } from '../../asciidoc/asciidoc'
 
@@ -9,7 +15,15 @@ type DestroyComponent = () => void
 export const createEditor = (parentDom: HTMLElement): DestroyComponent => {
   const state = EditorState.create({
     doc: undefined,
-    extensions: [keymap.of(defaultKeymap), asciidocPlugins(), lineNumbers(), highlightActiveLine(), highlightActiveLineGutter(), baseTheme(), defaultTheme()],
+    extensions: [
+      keymap.of(defaultKeymap),
+      asciidocPlugins(),
+      lineNumbers(),
+      highlightActiveLine(),
+      highlightActiveLineGutter(),
+      baseTheme(),
+      defaultTheme(),
+    ],
   })
 
   const view = new EditorView({
@@ -68,6 +82,11 @@ const baseTheme = (): Extension => {
     '.cm-italic': {
       fontStyle: 'italic',
     },
+    '.cm-monospace': {
+      padding: '3px 6px',
+      borderRadius: '2px',
+      background: '#484848',
+    },
   })
 }
 
@@ -85,3 +104,6 @@ const defaultTheme = (): Extension => {
     oneDark,
   ]
 }
+
+// color : #adadad
+// background : #484848

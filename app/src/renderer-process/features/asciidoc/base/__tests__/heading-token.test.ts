@@ -1,4 +1,5 @@
 import { HeadingToken } from '../heading-token'
+import { TOKEN_MARK_CSS } from '../token'
 
 describe('factory', () => {
   test('テキストの形式があっていない場合はfalseを返す', () => {
@@ -15,70 +16,18 @@ describe('factory', () => {
   })
 })
 
-describe('positionMark', () => {
-  const dataSet = [
-    {
-      id: 1,
-      position: { from: 1, to: 9 },
-      text: '= header',
-      expect: { from: 1, to: 2 },
-    },
-    {
-      id: 2,
-      position: { from: 1, to: 10 },
-      text: '== header',
-      expect: { from: 1, to: 3 },
-    },
-  ]
-  describe.each(dataSet)('ヘッダーのマーク部分（=, == など）のポジションを返す', data => {
-    test(`[No. ${data.id}]`, () => {
-      const headingToken = HeadingToken.factory(data.position, data.text, 'heading') as HeadingToken
-
-      const position = headingToken.positionMarker()[0]
-
-      expect(position.from).toBe(data.expect.from)
-      expect(position.to).toBe(data.expect.to)
-    })
-  })
-})
-
-describe('cssClassName', () => {
-  const testData = [
-    {
-      id: 1,
-      tokenText: '= header',
-      expectClassName: 'cm-header1',
-    },
-    {
-      id: 2,
-      tokenText: '== header',
-      expectClassName: 'cm-header2',
-    },
-    {
-      id: 3,
-      tokenText: '=== header',
-      expectClassName: 'cm-header3',
-    },
-    {
-      id: 4,
-      tokenText: '==== header',
-      expectClassName: 'cm-header4',
-    },
-    {
-      id: 5,
-      tokenText: '===== header',
-      expectClassName: 'cm-header5',
-    },
-  ]
-
-  describe.each(testData)('header形式に合致している場合はHeadingCSSClassを返す', data => {
-    test(`[No. ${data.id}]`, () => {
+describe('sortedPositionWithCSSClass', () => {
+  describe('ヘディングトークンの位置情報とCSSクラスを[開始トークンマーク][テキスト]の順番で取得', () => {
+    test('== header-level-2 のテスト', () => {
       const headingToken = HeadingToken.factory(
-        { from: 1, to: 3 },
-        data.tokenText,
+        { from: 0, to: 17 },
+        '== header-level-2',
         'heading'
       ) as HeadingToken
-      expect(headingToken.cssClass()).toBe(data.expectClassName)
+      const positions = headingToken.sortedPositionWithCSSClass()
+
+      expect(positions[0]).toEqual({ position: { from: 0, to: 2 }, cssClass: TOKEN_MARK_CSS })
+      expect(positions[1]).toEqual({ position: { from: 2, to: 17 }, cssClass: 'cm-header2' })
     })
   })
 })

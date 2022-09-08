@@ -1,10 +1,10 @@
-import { Position, Token } from './token'
+import { Position, PositionWithCSSClass, Token, TOKEN_MARK_CSS } from './token'
 
 type Level = 1 | 2
 
-export type LiteralTokenName = 'bold' | 'italic'
-type TagName = 'keyword' | 'string'
-type Mark = '*' | '_'
+export type LiteralTokenName = 'bold' | 'italic' | 'monospace'
+export type TagName = 'keyword' | 'string' | 'variableName.standard'
+type Mark = '*' | '_' | '`'
 type LiteralTokenType = {
   tagName: TagName
   mark: Mark
@@ -22,6 +22,11 @@ const LITERAL_TOKEN_LIST: Record<LiteralTokenName, LiteralTokenType> = {
     tagName: 'string',
     mark: '_',
     tokenType: 'italic',
+  },
+  monospace: {
+    tagName: 'variableName.standard',
+    mark: '`',
+    tokenType: 'monospace',
   },
 }
 
@@ -73,14 +78,35 @@ export class LiteralToken extends Token {
     super(position, text)
   }
 
-  public cssClass(): string {
+  public sortedPositionWithCSSClass(): PositionWithCSSClass[] {
+    const sortedPositions = this.positionSortedAll()
+    return [
+      { position: sortedPositions[0], cssClass: TOKEN_MARK_CSS },
+      { position: sortedPositions[1], cssClass: this.cssClass() },
+      { position: sortedPositions[2], cssClass: TOKEN_MARK_CSS },
+    ]
+  }
+
+  private cssClass(): string {
     return this.tokenType.cssClass()
   }
 
-  public positionMarker(): Position[] {
+  private positionMarker(): Position[] {
     return [
       { from: this.position.from, to: this.position.from + this.level },
       { from: this.position.to - this.level, to: this.position.to },
     ]
+  }
+
+  private positionContent(): Position {
+    return {
+      from: this.position.from + this.level,
+      to: this.position.to - this.level,
+    }
+  }
+
+  private positionSortedAll(): Position[] {
+    const markerPosition = this.positionMarker()
+    return [markerPosition[0], this.positionContent(), markerPosition[1]]
   }
 }

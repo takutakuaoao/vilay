@@ -1,4 +1,6 @@
-import { LiteralToken, LiteralTokenName } from '../literal-token'
+import { LiteralToken } from '../literal-token'
+import { TOKEN_MARK_CSS } from '../token'
+import { expect } from '@playwright/test'
 
 describe('factory', () => {
   const dataSet = [
@@ -32,55 +34,18 @@ describe('factory', () => {
   })
 })
 
-describe('cssClass', () => {
-  test('cm-<literalTokenType>を返す', () => {
-    const bold = LiteralToken.factory(
-      'italic',
-      { from: 1, to: 3 },
-      '__italic__',
-      'string'
+describe('sortedPositionWithCSSClass', () => {
+  test('リテラルトークンの位置情報とCSSクラスを[開始トークンマーク][テキスト][終了トークンマーク]の順番で取得', () => {
+    const literalToken = LiteralToken.factory(
+      'monospace',
+      { from: 0, to: 13 },
+      '``monospace``',
+      'variableName.standard'
     ) as LiteralToken
 
-    expect(bold.cssClass()).toBe('cm-italic')
-  })
-})
-
-describe('positionMarker', () => {
-  const dataSet = [
-    {
-      test: '_xx_の場合',
-      position: { from: 1, to: 9 },
-      text: '_italic_',
-      literalTokenName: 'italic',
-      tagName: 'string',
-      expect: [
-        { from: 1, to: 2 },
-        { from: 8, to: 9 },
-      ],
-    },
-    {
-      test: '_xx_の場合',
-      position: { from: 1, to: 9 },
-      text: '**bold**',
-      literalTokenName: 'bold',
-      tagName: 'keyword',
-      expect: [
-        { from: 1, to: 3 },
-        { from: 7, to: 9 },
-      ],
-    },
-  ]
-  describe.each(dataSet)('各マーカー位置の始まりと終わりの位置を返す', data => {
-    test(data.test, () => {
-      const bold = LiteralToken.factory(
-        data.literalTokenName as LiteralTokenName,
-        data.position,
-        data.text,
-        data.tagName
-      ) as LiteralToken
-      const positions = bold.positionMarker()
-
-      expect(positions).toEqual(data.expect)
-    })
+    const result = literalToken.sortedPositionWithCSSClass()
+    expect(result[0]).toEqual({ position: { from: 0, to: 2 }, cssClass: TOKEN_MARK_CSS })
+    expect(result[1]).toEqual({ position: { from: 2, to: 11 }, cssClass: 'cm-monospace' })
+    expect(result[2]).toEqual({ position: { from: 11, to: 13 }, cssClass: TOKEN_MARK_CSS })
   })
 })
