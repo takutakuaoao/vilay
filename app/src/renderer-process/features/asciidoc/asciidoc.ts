@@ -66,11 +66,11 @@ function nodeText(view: EditorView, node: SyntaxNodeRef): string {
 }
 
 function makeItalicToken(node: SyntaxNodeRef, text: string): LiteralToken | false {
-  return LiteralToken.factoryItalic({ from: node.from, to: node.to }, text, node.name)
+  return LiteralToken.factory('italic', { from: node.from, to: node.to }, text, node.name)
 }
 
 function makeBoldToken(node: SyntaxNodeRef, text: string): LiteralToken | false {
-  return LiteralToken.factoryBold({ from: node.from, to: node.to }, text, node.name)
+  return LiteralToken.factory('bold', { from: node.from, to: node.to }, text, node.name)
 }
 
 function makeHeadingToken(node: SyntaxNodeRef, text: string): HeadingToken | false {

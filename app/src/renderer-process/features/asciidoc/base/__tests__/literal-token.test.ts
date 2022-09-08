@@ -26,7 +26,7 @@ describe('factory', () => {
   ]
   describe.each(dataSet)('dataProvider dataSet', data => {
     test(data.test, () => {
-      const result = LiteralToken.factoryItalic({ from: 1, to: 2 }, data.text, data.tokenType)
+      const result = LiteralToken.factory('italic', { from: 1, to: 2 }, data.text, data.tokenType)
       data.assert(result)
     })
   })
@@ -34,7 +34,8 @@ describe('factory', () => {
 
 describe('cssClass', () => {
   test('cm-italicを返す', () => {
-    const bold = LiteralToken.factoryItalic(
+    const bold = LiteralToken.factory(
+      'italic',
       { from: 1, to: 3 },
       '__italic__',
       'string'
@@ -67,7 +68,12 @@ describe('positionMarker', () => {
   ]
   describe.each(dataSet)('各_のマーカー位置の始まりと終わりを返す', data => {
     test(data.test, () => {
-      const bold = LiteralToken.factoryItalic(data.position, data.text, 'string') as LiteralToken
+      const bold = LiteralToken.factory(
+        'italic',
+        data.position,
+        data.text,
+        'string'
+      ) as LiteralToken
       const positions = bold.positionMaker()
 
       expect(positions).toEqual(data.expect)

@@ -1,21 +1,29 @@
 import { Position, Token } from './token'
 
-export type Level = 1 | 2
-export const Level_LIST: Level[] = [2, 1]
+type Level = 1 | 2
 
-type Bold = {
-  tagName: 'keyword'
-  mark: '*'
-  tokenType: 'bold'
+type LiteralTokenName = 'bold' | 'italic'
+type TagName = 'keyword' | 'string'
+type Mark = '*' | '_'
+type LiteralTokenType = {
+  tagName: TagName
+  mark: Mark
+  tokenType: LiteralTokenName
 }
 
-type Italic = {
-  tagName: 'string'
-  mark: '_'
-  tokenType: 'italic'
+const Level_LIST: Level[] = [2, 1]
+const LITERAL_TOKEN_LIST: Record<LiteralTokenName, LiteralTokenType> = {
+  bold: {
+    tagName: 'keyword',
+    mark: '*',
+    tokenType: 'bold',
+  },
+  italic: {
+    tagName: 'string',
+    mark: '_',
+    tokenType: 'italic',
+  },
 }
-
-type LiteralTokenType = Italic | Bold
 
 class TokenType {
   public constructor(private readonly value: LiteralTokenType) {}
@@ -26,8 +34,7 @@ class TokenType {
     }
 
     for (const level of Level_LIST) {
-      const reg = `^\\${this.value.mark}{${level}}.*\\${this.value.mark}{${level}}$`
-      if (new RegExp(reg).test(text)) {
+      if (new RegExp(this.matchPattern(level)).test(text)) {
         return level
       }
     }
@@ -38,43 +45,23 @@ class TokenType {
   public cssClass(): string {
     return `cm-${this.value.tokenType}`
   }
+
+  private matchPattern(level: Level): string {
+    return `^\\${this.value.mark}{${level}}.*\\${this.value.mark}{${level}}$`
+  }
 }
 
 export class LiteralToken extends Token {
-  public static factoryItalic(
+  public static factory(
+    literalTokenName: LiteralTokenName,
     position: Position,
     text: string,
     tagName: string
   ): LiteralToken | false {
-    return LiteralToken.factory(
-      position,
-      text,
-      tagName,
-      new TokenType({ tagName: 'string', mark: '_', tokenType: 'italic' })
-    )
-  }
+    const tokenType = new TokenType(LITERAL_TOKEN_LIST[literalTokenName])
+    const level = tokenType.validate(text, tagName)
 
-  public static factoryBold(
-    position: Position,
-    text: string,
-    tagName: string
-  ): LiteralToken | false {
-    return LiteralToken.factory(
-      position,
-      text,
-      tagName,
-      new TokenType({ tagName: 'keyword', mark: '*', tokenType: 'bold' })
-    )
-  }
-
-  private static factory(
-    position: Position,
-    text: string,
-    tagName: string,
-    literalTokenType: TokenType
-  ): LiteralToken | false {
-    const level = literalTokenType.validate(text, tagName)
-    return level ? new LiteralToken(position, text, level, literalTokenType) : false
+    return level ? new LiteralToken(position, text, level, tokenType) : false
   }
 
   private constructor(
