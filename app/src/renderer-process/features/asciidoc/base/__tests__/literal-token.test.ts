@@ -30,15 +30,6 @@ describe('factory', () => {
       data.assert(result)
     })
   })
-
-  test('_*test*_のテキストを与えると*トークンを保持', () => {
-    //   const token = LiteralToken.factory(
-    //     'italic',
-    //     { from: 1, to: 9 },
-    //     '_*test*_',
-    //     'string'
-    //   ) as LiteralToken
-  })
 })
 
 describe('cssClass', () => {
