@@ -3,9 +3,14 @@ export type Position = {
   to: number
 }
 
+export type PositionWithCSSClass = {
+  position: Position
+  cssClass: string
+}
+
+export const TOKEN_MARK_CSS = 'cm-token-mark'
 export abstract class Token {
-  public abstract cssClass(): string
-  public abstract positionMarker(): Position[]
+  public abstract sortedPositionWithCSSClass(): PositionWithCSSClass[]
 
   public constructor(protected readonly position: Position, protected readonly text: string) {}
 

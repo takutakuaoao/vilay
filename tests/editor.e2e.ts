@@ -22,4 +22,11 @@ test.describe('asciidoc記法に沿ったテキストを入力すると対応す
     await app.hasClass('.cm-italic')
     await app.hasClass('.cm-token-mark')
   })
+
+  test('``monospace`` の入力', async () => {
+    const app = await Application.factory()
+    await app.doType('``monospace``')
+    await app.hasClass('.cm-monospace')
+    await app.hasClass('.cm-token-mark')
+  })
 })

@@ -1,4 +1,4 @@
-import { Position, Token } from './token'
+import { Position, PositionWithCSSClass, Token, TOKEN_MARK_CSS } from './token'
 
 type HeadingLevel = 1 | 2 | 3 | 4 | 5
 type NonHeadingToken = false
@@ -43,7 +43,16 @@ export class HeadingToken extends Token {
     super(position, text)
   }
 
-  public positionMarker(): Position[] {
+  public sortedPositionWithCSSClass(): PositionWithCSSClass[] {
+    const sortedPositions = this.positionSortedAll()
+
+    return [
+      { position: sortedPositions[0], cssClass: TOKEN_MARK_CSS },
+      { position: sortedPositions[1], cssClass: this.cssClass() },
+    ]
+  }
+
+  private positionMarker(): Position[] {
     return [
       {
         from: this.position.from,
@@ -52,7 +61,18 @@ export class HeadingToken extends Token {
     ]
   }
 
-  public cssClass(): string {
+  private cssClass(): string {
     return HEADING_CSS_LIST[this.level]
+  }
+
+  private positionContent(): Position {
+    return {
+      from: this.position.from + this.level,
+      to: this.position.to,
+    }
+  }
+
+  private positionSortedAll(): Position[] {
+    return [this.positionMarker()[0], this.positionContent()]
   }
 }

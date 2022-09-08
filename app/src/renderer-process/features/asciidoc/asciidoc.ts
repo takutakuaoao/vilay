@@ -7,8 +7,6 @@ import { SyntaxNodeRef } from '@lezer/common'
 import { LiteralToken, LiteralTokenName } from './base/literal-token'
 import { Token } from './base/token'
 
-const TOKEN_MARK_CSS = 'cm-token-mark'
-
 const asciidocHeading = (view: EditorView) => {
   let decorations: Range<Decoration>[] = []
   for (const {} of view.visibleRanges) {
@@ -28,6 +26,11 @@ const asciidocHeading = (view: EditorView) => {
         if (italicToken) {
           decorations = setDecorations(italicToken, decorations)
         }
+
+        const monospaceToken = makeLiteralToken('monospace', node, nodeText(view, node))
+        if (monospaceToken) {
+          decorations = setDecorations(monospaceToken, decorations)
+        }
       },
     })
   }
@@ -36,16 +39,11 @@ const asciidocHeading = (view: EditorView) => {
 }
 
 function setDecorations(token: Token, decorations: Range<Decoration>[]): Range<Decoration>[] {
-  decorations.push(makeTokenRange(token))
-  for (const markPosition of token.positionMarker()) {
-    decorations.push(makeRange(markPosition, TOKEN_MARK_CSS))
+  for (const positionWithCSSClass of token.sortedPositionWithCSSClass()) {
+    decorations.push(makeRange(positionWithCSSClass.position, positionWithCSSClass.cssClass))
   }
 
   return decorations
-}
-
-function makeTokenRange(token: Token): Range<Decoration> {
-  return makeRange(token.positionToken(), token.cssClass())
 }
 
 function makeRange(position: { from: number; to: number }, cssClass: string): Range<Decoration> {
