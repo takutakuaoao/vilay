@@ -87,6 +87,14 @@ const baseTheme = (): Extension => {
       borderRadius: '2px',
       background: '#484848',
     },
+    '.cm-superscript': {
+      verticalAlign: 'super',
+      fontSize: '0.8rem',
+    },
+    '.cm-subscript': {
+      verticalAlign: 'sub',
+      fontSize: '0.8rem',
+    },
   })
 }
 

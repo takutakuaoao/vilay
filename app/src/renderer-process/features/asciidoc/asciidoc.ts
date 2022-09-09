@@ -31,6 +31,16 @@ const asciidocHeading = (view: EditorView) => {
         if (monospaceToken) {
           decorations = setDecorations(monospaceToken, decorations)
         }
+
+        const superscriptToken = makeLiteralToken('superscript', node, nodeText(view, node))
+        if (superscriptToken) {
+          decorations = setDecorations(superscriptToken, decorations)
+        }
+
+        const subscript = makeLiteralToken('subscript', node, nodeText(view, node))
+        if (subscript) {
+          decorations = setDecorations(subscript, decorations)
+        }
       },
     })
   }

@@ -2,9 +2,9 @@ import { Position, PositionWithCSSClass, Token, TOKEN_MARK_CSS } from './token'
 
 type Level = 1 | 2
 
-export type LiteralTokenName = 'bold' | 'italic' | 'monospace'
+export type LiteralTokenName = 'bold' | 'italic' | 'monospace' | 'superscript' | 'subscript'
 export type TagName = 'keyword' | 'string' | 'variableName.standard'
-type Mark = '*' | '_' | '`'
+type Mark = '*' | '_' | '`' | '^' | '~'
 type LiteralTokenType = {
   tagName: TagName
   mark: Mark
@@ -27,6 +27,16 @@ const LITERAL_TOKEN_LIST: Record<LiteralTokenName, LiteralTokenType> = {
     tagName: 'variableName.standard',
     mark: '`',
     tokenType: 'monospace',
+  },
+  superscript: {
+    tagName: 'keyword',
+    mark: '^',
+    tokenType: 'superscript',
+  },
+  subscript: {
+    tagName: 'keyword',
+    mark: '~',
+    tokenType: 'subscript',
   },
 }
 
