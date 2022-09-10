@@ -29,4 +29,18 @@ test.describe('asciidoc記法に沿ったテキストを入力すると対応す
     await app.hasClass('.cm-monospace')
     await app.hasClass('.cm-token-mark')
   })
+
+  test('^superscript^ の入力', async () => {
+    const app = await Application.factory()
+    await app.doType('^superscript^')
+    await app.hasClass('.cm-superscript')
+    await app.hasClass('.cm-token-mark')
+  })
+
+  test('~subscript~ の入力', async () => {
+    const app = await Application.factory()
+    await app.doType('~subscript~')
+    await app.hasClass('.cm-subscript')
+    await app.hasClass('.cm-token-mark')
+  })
 })
