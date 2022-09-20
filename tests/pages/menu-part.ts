@@ -21,7 +21,7 @@ export class MenuPart {
         break
       }
 
-      menus = matchLabel[0].menu.items
+      menus = matchLabel[0].submenu!.items
     }
 
     expect(result).toBeTruthy()
