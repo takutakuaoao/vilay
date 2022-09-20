@@ -46,6 +46,10 @@ export class AppWindow {
     this.window = new BrowserWindow(windowOptions)
   }
 
+  public getBrowserWindow(): Electron.BrowserWindow {
+    return this.window
+  }
+
   public load() {
     console.log(encodePathAsUrl(__dirname, 'index.html'))
     this.window.loadURL(encodePathAsUrl(__dirname, 'index.html'))

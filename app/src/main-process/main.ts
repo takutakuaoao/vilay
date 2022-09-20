@@ -4,15 +4,19 @@ import { ipcMain } from 'electron'
 import { AppWindow } from './app-window'
 import log from 'electron-log'
 
-app.on('ready', () => {
-  createWindow()
+app.on('ready', async () => {
+  await createWindow()
+
+  // dialog.showOpenDialogSync()
 
   ipcMain.handle('getNodeVersion', () => process.versions.node)
 })
 
-function createWindow() {
+async function createWindow() {
   const window = new AppWindow()
   window.load()
+  // const selectedFilePath = await dialog.showOpenDialog(window.getBrowserWindow())
+  // console.log(selectedFilePath)
 }
 
 process.on('uncaughtException', function (err) {
