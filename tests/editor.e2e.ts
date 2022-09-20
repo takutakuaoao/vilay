@@ -44,3 +44,15 @@ test.describe('asciidoc記法に沿ったテキストを入力すると対応す
     await app.hasClass('.cm-token-mark')
   })
 })
+
+test.describe('既存のファイルを開くテスト', () => {
+  test('メニューバーのトップにFileがあるかのテスト', async () => {
+    const app = await Application.factory()
+    app.hasMenuLabel(['File'])
+  })
+
+  test('メニューバーのFileにOpen File の文字列があるかのテスト', async () => {
+    const app = await Application.factory()
+    app.hasMenuLabel(['File', 'Open File'])
+  })
+})
