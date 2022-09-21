@@ -1,4 +1,5 @@
 import { Menu } from 'electron'
+import {} from 'electron/main'
 
 export const createAppMenu = () => {
   const menu = Menu.buildFromTemplate(createMenuTemplate())
@@ -22,7 +23,10 @@ const createFileMenu = () => {
     submenu: [
       {
         label: '&Open File',
-        click: () => console.log('Click Open File...'),
+        click: async () => {
+          console.log('Click Open File....')
+          // await dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] })
+        },
       },
     ],
   }

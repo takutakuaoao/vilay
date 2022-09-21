@@ -46,8 +46,14 @@ test.describe('asciidoc記法に沿ったテキストを入力すると対応す
 })
 
 test.describe('既存のファイルを開くテスト', () => {
-  test('メニューバーのFileにOpen File の文字列があるかのテスト', async () => {
+  test('メニューバーのFileにOpen Fileの文字列があるかのテスト', async () => {
     const app = await Application.factory()
-    app.hasMenuLabel(['&File', '&Open File'])
+    await app.hasMenuLabel(['&File', '&Open File'])
+  })
+
+  test('Open Fileをクリックしたらエディター内に「＝ Click Open File!」が表示される', async () => {
+    const app = await Application.factory()
+    await app.clickMenu(['&File', '&Open File'])
+    await app.hasText('＝ Click Open File!')
   })
 })

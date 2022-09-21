@@ -1,5 +1,4 @@
-import { Menu } from 'electron'
-import { Page, _electron } from 'playwright'
+import { ElectronApplication, Page, _electron } from 'playwright'
 import { EditorPart } from './editor-part'
 import { MenuPart } from './menu-part'
 
@@ -8,25 +7,26 @@ export class Application {
     const electronApp = await _electron.launch({
       args: ['out/main.js'],
     })
-    const menu = await electronApp.evaluate(async ({ app }) => {
-      return app.applicationMenu
-    })
     const window = await electronApp.firstWindow()
 
-    return new Application(window, menu!)
+    return new Application(window, electronApp)
   }
   private readonly window: Page
   private readonly menu: MenuPart
   private readonly editor: EditorPart
 
-  private constructor(window: Page, menu: Menu) {
+  private constructor(window: Page, electronApp: ElectronApplication) {
     this.window = window
-    this.menu = new MenuPart(menu)
+    this.menu = new MenuPart(electronApp)
     this.editor = new EditorPart(this.window.locator('data-testid=editor').locator('.cm-content'))
   }
 
-  public hasMenuLabel(text: string[]) {
-    this.menu.hasMenuLabel(text)
+  public async clickMenu(clickingMenu: string[]) {
+    await this.menu.clickItem(clickingMenu)
+  }
+
+  public async hasMenuLabel(text: string[]) {
+    await this.menu.hasMenuLabel(text)
   }
 
   public async doType(input: string | string[]) {

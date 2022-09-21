@@ -1,27 +1,58 @@
-import { expect } from '@playwright/test'
-import { Menu } from 'electron'
+import { ElectronApplication, expect } from '@playwright/test'
+import { MenuItem } from 'electron'
 
 export class MenuPart {
-  public constructor(private readonly part: Menu) {}
+  private static isLastLoop(currentKey: string, target: string[]): boolean {
+    return currentKey === (target.length - 1).toString()
+  }
 
-  public hasMenuLabel(text: string[]) {
+  public static matchLabel(menus: MenuItem[], label: string): MenuItem | undefined {
+    return menus.find(menu => menu.label === label)
+  }
+
+  public constructor(private readonly electronApp: ElectronApplication) {}
+
+  public async clickItem(target: string[]) {
+    await this.electronApp.evaluate(async ({ app }, target) => {
+      let menus = app.applicationMenu!.items
+
+      for (const key in target) {
+        const matched = menus.find(menu => menu.label === target[key])
+
+        if (matched === undefined) {
+          throw new Error('Cause error because you try to click menu item that not exists.')
+        }
+
+        if (key === (target.length - 1).toString()) {
+          await matched.click()
+          break
+        }
+
+        menus = matched.submenu!.items
+      }
+    }, target)
+  }
+
+  public async hasMenuLabel(target: string[]) {
     let result = false
-    let menus = this.part.items
+    let menus = await this.electronApp.evaluate(async ({ app }) => {
+      return app.applicationMenu!.items
+    })
 
-    for (const key in text) {
-      const matchLabel = menus.filter(menu => menu.label === text[key])
+    for (const key in target) {
+      const matched = menus.find(menu => menu.label === target[key])
 
-      if (matchLabel.length === 0) {
+      if (matched === undefined) {
         result = false
         break
       }
 
-      if (key === (text.length - 1).toString()) {
+      if (MenuPart.isLastLoop(key, target)) {
         result = true
         break
       }
 
-      menus = matchLabel[0].submenu!.items
+      menus = matched.submenu!.items
     }
 
     expect(result).toBeTruthy()
