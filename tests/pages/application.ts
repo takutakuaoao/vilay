@@ -11,6 +11,7 @@ export class Application {
 
     return new Application(window, electronApp)
   }
+
   private readonly window: Page
   private readonly menu: MenuPart
   private readonly editor: EditorPart
@@ -21,8 +22,8 @@ export class Application {
     this.editor = new EditorPart(this.window.locator('data-testid=editor').locator('.cm-content'))
   }
 
-  public async clickMenu(clickingMenu: string[]) {
-    await this.menu.clickItem(clickingMenu)
+  public async isOpenDialog() {
+    return await this.menu.isOpenDialog()
   }
 
   public async hasMenuLabel(text: string[]) {
@@ -55,6 +56,10 @@ export class Application {
 
   public async hasClass(expectClass: string) {
     await this.editor.hasClass(expectClass)
+  }
+
+  public async clickMenuItemById(menuId: string): Promise<void> {
+    await this.menu.clickItemById(menuId)
   }
 
   public async stop() {

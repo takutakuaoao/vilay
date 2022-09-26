@@ -1,36 +1,23 @@
 import { ElectronApplication, expect } from '@playwright/test'
-import { MenuItem } from 'electron'
 
 export class MenuPart {
   private static isLastLoop(currentKey: string, target: string[]): boolean {
     return currentKey === (target.length - 1).toString()
   }
 
-  public static matchLabel(menus: MenuItem[], label: string): MenuItem | undefined {
-    return menus.find(menu => menu.label === label)
-  }
-
   public constructor(private readonly electronApp: ElectronApplication) {}
 
-  public async clickItem(target: string[]) {
-    await this.electronApp.evaluate(async ({ app }, target) => {
-      let menus = app.applicationMenu!.items
+  public async clickItemById(menuId: string): Promise<void> {
+    await this.electronApp.evaluate(async ({ Menu }, id) => {
+      const menu = Menu.getApplicationMenu()
+      const menuItem = menu!.getMenuItemById(id)
 
-      for (const key in target) {
-        const matched = menus.find(menu => menu.label === target[key])
-
-        if (matched === undefined) {
-          throw new Error('Cause error because you try to click menu item that not exists.')
-        }
-
-        if (key === (target.length - 1).toString()) {
-          await matched.click()
-          break
-        }
-
-        menus = matched.submenu!.items
+      if (menuItem) {
+        await menuItem.click()
+      } else {
+        throw new Error(`Menu item with id ${id} not found`)
       }
-    }, target)
+    }, menuId)
   }
 
   public async hasMenuLabel(target: string[]) {
@@ -56,5 +43,22 @@ export class MenuPart {
     }
 
     expect(result).toBeTruthy()
+  }
+
+  public async isOpenDialog() {
+    // const isOpen = await this.electronApp.evaluate(({ app, BrowserWindow }) => {
+    // const window = BrowserWindow.getFocusedWindow()
+    // const window = BrowserWindow.getAllWindows()
+    // app.
+    // return window
+    // if (window === null) {
+    //   return 'ttt'
+    // }
+    // return window.isModal()
+    // })
+    // console.log(isOpen)
+    // expect(isOpen).toBeTruthy()
+
+    const window = await this.electronApp.firstWindow()
   }
 }

@@ -1,5 +1,11 @@
-import { contextBridge, ipcRenderer } from 'electron'
+import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
 
-contextBridge.exposeInMainWorld('versions', {
+export type Channels = 'appCommand'
+
+contextBridge.exposeInMainWorld('electron', {
   node: async () => await ipcRenderer.invoke('getNodeVersion'),
+  receive: (channel: Channels, callback: (...args: any[]) => void) => {
+    const newCallback = (_: IpcRendererEvent, ...data: any[]) => callback(data)
+    ipcRenderer.on(channel, newCallback)
+  },
 })

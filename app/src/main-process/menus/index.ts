@@ -1,33 +1,27 @@
-import { Menu } from 'electron'
-import {} from 'electron/main'
+import { BrowserWindow, dialog, Menu, MenuItem } from 'electron'
+
+const FILE_MENU_LABEL = 'File'
 
 export const createAppMenu = () => {
-  const menu = Menu.buildFromTemplate(createMenuTemplate())
+  const menu = Menu.getApplicationMenu()
+  const fileMenu = menu!.items.find(item => item.label === FILE_MENU_LABEL)
+  const openFileMenu = makeOpenFileMenu()
+
+  if (fileMenu) {
+    fileMenu.submenu!.insert(0, openFileMenu)
+  }
+
   Menu.setApplicationMenu(menu)
 }
 
-const createMenuTemplate = () => {
-  const defaultMenu = getDefaultMenus().filter(menuItem => {
-    return menuItem.label !== 'File'
+const makeOpenFileMenu = (): MenuItem => {
+  return new MenuItem({
+    label: 'Open File',
+    id: 'open-file',
+    click: async () => {
+      const window = BrowserWindow.getFocusedWindow()
+      window!.webContents.send('appCommand', '= Click Open File!')
+      await dialog.showOpenDialog(window!)
+    },
   })
-  return [...defaultMenu, createFileMenu()]
-}
-
-const getDefaultMenus = () => {
-  return Menu.getApplicationMenu()!.items
-}
-
-const createFileMenu = () => {
-  return {
-    label: '&File',
-    submenu: [
-      {
-        label: '&Open File',
-        click: async () => {
-          console.log('Click Open File....')
-          // await dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] })
-        },
-      },
-    ],
-  }
 }
