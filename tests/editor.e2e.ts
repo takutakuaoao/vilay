@@ -51,17 +51,10 @@ test.describe('既存のファイルを開くテスト', () => {
     await app.hasMenuLabel(['File', 'Open File'])
   })
 
-  test('Open Fileをクリックしたらエディター内に「＝ Click Open File!」が表示される', async () => {
+  test('Open Fileをクリックしたらエディター内に「= Click Open File!」が表示される', async () => {
     const app = await Application.factory()
     await app.doType('')
     await app.clickMenuItemById('open-file')
     await app.hasText('= Click Open File!')
-  })
-
-  test('Open Fileをクリックしたらダイアログが表示される', async () => {
-    const app = await Application.factory()
-    await app.doType('')
-    await app.clickMenuItemById('open-file')
-    await app.isOpenDialog()
   })
 })
