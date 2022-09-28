@@ -44,21 +44,4 @@ export class MenuPart {
 
     expect(result).toBeTruthy()
   }
-
-  public async isOpenDialog() {
-    // const isOpen = await this.electronApp.evaluate(({ app, BrowserWindow }) => {
-    // const window = BrowserWindow.getFocusedWindow()
-    // const window = BrowserWindow.getAllWindows()
-    // app.
-    // return window
-    // if (window === null) {
-    //   return 'ttt'
-    // }
-    // return window.isModal()
-    // })
-    // console.log(isOpen)
-    // expect(isOpen).toBeTruthy()
-
-    const window = await this.electronApp.firstWindow()
-  }
 }

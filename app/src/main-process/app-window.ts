@@ -19,6 +19,7 @@ export class AppWindow {
     const windowOptions: Electron.BrowserWindowConstructorOptions = {
       x: savedWindowState.x,
       y: savedWindowState.y,
+      title: 'test',
       width: savedWindowState.width,
       height: savedWindowState.height,
       minWidth: this.minWidth,

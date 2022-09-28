@@ -22,10 +22,6 @@ export class Application {
     this.editor = new EditorPart(this.window.locator('data-testid=editor').locator('.cm-content'))
   }
 
-  public async isOpenDialog() {
-    return await this.menu.isOpenDialog()
-  }
-
   public async hasMenuLabel(text: string[]) {
     await this.menu.hasMenuLabel(text)
   }

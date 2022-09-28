@@ -1,4 +1,6 @@
 import { BrowserWindow, dialog, Menu, MenuItem } from 'electron'
+import { OpenFileRequest, OpenFileService } from '../../application/open-file-service'
+import { NoteRepository } from '../../infrastructure/note-repository'
 
 const FILE_MENU_LABEL = 'File'
 
@@ -20,8 +22,11 @@ const makeOpenFileMenu = (): MenuItem => {
     id: 'open-file',
     click: async () => {
       const window = BrowserWindow.getFocusedWindow()
-      window!.webContents.send('appCommand', '= Click Open File!')
-      await dialog.showOpenDialog(window!)
+      const path = await dialog.showOpenDialog(window!)
+      const service = new OpenFileService(new NoteRepository())
+      const response = service.execute(new OpenFileRequest(path.filePaths[0]))
+      window!.setTitle(response.getPath())
+      window!.webContents.send('appCommand', response.getContent())
     },
   })
 }
