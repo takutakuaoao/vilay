@@ -25,8 +25,8 @@ const makeOpenFileMenu = (): MenuItem => {
       const path = await dialog.showOpenDialog(window!)
       const service = new OpenFileService(new NoteRepository())
       const response = service.execute(new OpenFileRequest(path.filePaths[0]))
-      window!.setTitle(response.getPath())
-      window!.webContents.send('appCommand', response.getContent())
+      window!.setTitle(response.filePath())
+      window!.webContents.send('appCommand', response.showContent())
     },
   })
 }

@@ -2,10 +2,7 @@ import { Path } from './path'
 import { Content } from './content'
 
 export class Note {
-  private readonly content: Content
-  public constructor(private readonly path: Path, content: string | Content) {
-    this.content = typeof content === 'string' ? Content.fromText(content) : content
-  }
+  public constructor(private readonly path: Path, private readonly content: Content) {}
 
   public filePath(): string {
     return this.path.filePath()
@@ -15,7 +12,7 @@ export class Note {
     return this.path.fileName()
   }
 
-  public getContent(): string {
+  public showContent(): string {
     return this.content.showText()
   }
 }

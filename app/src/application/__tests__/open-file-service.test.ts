@@ -6,9 +6,9 @@ test('ファイルを開く', () => {
   const fileName = 'test.txt'
   const filePath = path.join(__dirname, 'mock', fileName)
   const service = new OpenFileService(new NoteRepository())
-  const response = service.execute(new OpenFileRequest(filePath))
+  const note = service.execute(new OpenFileRequest(filePath))
 
-  expect(response.getContent()).toBe('test\n')
-  expect(response.getPath()).toBe(filePath)
-  expect(response.getFileName()).toBe(fileName)
+  expect(note.showContent()).toBe('test\n')
+  expect(note.filePath()).toBe(filePath)
+  expect(note.name()).toBe(fileName)
 })
