@@ -6,7 +6,7 @@
 export default {
   clearMocks: true,
   // coverageProvider: 'v8',
-  roots: ['<rootDir>/app'],
+  roots: ['<rootDir>'],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)'],
   // testPathIgnorePatterns: [],
   transform: {

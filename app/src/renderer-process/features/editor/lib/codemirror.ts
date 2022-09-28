@@ -12,9 +12,12 @@ import { asciidocPlugins } from '../../asciidoc/asciidoc'
 
 type DestroyComponent = () => void
 
-export const createEditor = (parentDom: HTMLElement): DestroyComponent => {
+export const createEditor = (
+  parentDom: HTMLElement,
+  doc: string | undefined = undefined
+): DestroyComponent => {
   const state = EditorState.create({
-    doc: undefined,
+    doc: doc,
     extensions: [
       keymap.of(defaultKeymap),
       asciidocPlugins(),

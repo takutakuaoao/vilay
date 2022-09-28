@@ -1,90 +1,61 @@
-import { expect } from '@playwright/test'
-import { Locator, Page, _electron } from 'playwright'
-import { FileTree } from './file-tree'
-
-type WindowSize = {
-  width: number
-  height: number
-}
+import { ElectronApplication, Page, _electron } from 'playwright'
+import { EditorPart } from './editor-part'
+import { MenuPart } from './menu-part'
 
 export class Application {
-  public static async factory(windowSize?: WindowSize): Promise<Application> {
+  public static async factory(): Promise<Application> {
     const electronApp = await _electron.launch({
       args: ['out/main.js'],
     })
     const window = await electronApp.firstWindow()
 
-    if (windowSize !== undefined) {
-      await window.setViewportSize(windowSize)
-    }
-
-    return new Application(window)
+    return new Application(window, electronApp)
   }
 
   private readonly window: Page
-  private readonly editor: Locator
-  public readonly fileTree: FileTree
+  private readonly menu: MenuPart
+  private readonly editor: EditorPart
 
-  private constructor(window: Page) {
+  private constructor(window: Page, electronApp: ElectronApplication) {
     this.window = window
-    this.editor = this.window.locator('data-testid=editor').locator('.cm-content')
-    this.fileTree = FileTree.factory(window)
+    this.menu = new MenuPart(electronApp)
+    this.editor = new EditorPart(this.window.locator('data-testid=editor').locator('.cm-content'))
+  }
+
+  public async hasMenuLabel(text: string[]) {
+    await this.menu.hasMenuLabel(text)
   }
 
   public async doType(input: string | string[]) {
-    if (Array.isArray(input)) {
-      for (const [rowNumber, lineText] of Object.entries(input)) {
-        const num = parseInt(rowNumber)
-        await this.doType(lineText)
-
-        // Press enter when not last line
-        if (num + 1 !== input.length) {
-          await this.doPressEnter()
-        }
-      }
-
-      return
-    }
-
-    await this.editor.type(input)
+    await this.editor.doType(input)
   }
 
   public async doPressEnter() {
-    await this.editor.press('Enter')
+    await this.editor.doPressEnter()
   }
 
   public async doPressBackSpace() {
-    await this.editor.press('Backspace')
+    await this.editor.doPressBackSpace()
   }
 
   public async doPressUp() {
-    await this.editor.press('ArrowUp')
+    await this.editor.doPressUp()
   }
 
   public async hasText(input: string | string[]) {
-    const expectText = Array.isArray(input) ? input.join('\n') : input
-    expect(await this.editor.innerText()).toBe(expectText)
+    await this.editor.hasText(input)
   }
 
   public async canScroll(direction: 'bottom' | 'right') {
-    const scrollSize = await this.editor.evaluate(
-      (editor, { direction }) => {
-        if (direction === 'bottom') {
-          editor.scrollIntoView({ block: 'end' })
-          return editor.scrollTop
-        } else {
-          editor.scrollIntoView({ inline: 'end' })
-          return editor.scrollLeft
-        }
-      },
-      { direction }
-    )
-
-    expect(scrollSize > 0).toBeTruthy()
+    await this.editor.canScroll(direction)
   }
 
   public async hasClass(expectClass: string) {
-    await expect(this.editor.locator(expectClass).first()).toBeVisible()
+    await this.editor.hasClass(expectClass)
+  }
+
+  public async clickMenuItemById(menuId: string): Promise<void> {
+    await this.menu.clickItemById(menuId)
   }
 
   public async stop() {

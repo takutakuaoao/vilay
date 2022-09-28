@@ -44,3 +44,17 @@ test.describe('asciidoc記法に沿ったテキストを入力すると対応す
     await app.hasClass('.cm-token-mark')
   })
 })
+
+test.describe('既存のファイルを開くテスト', () => {
+  test('メニューバーのFileにOpen Fileの文字列があるかのテスト', async () => {
+    const app = await Application.factory()
+    await app.hasMenuLabel(['File', 'Open File'])
+  })
+
+  test('Open Fileをクリックしたらエディター内に「= Click Open File!」が表示される', async () => {
+    const app = await Application.factory()
+    await app.doType('')
+    await app.clickMenuItemById('open-file')
+    await app.hasText('= Click Open File!')
+  })
+})

@@ -6,10 +6,10 @@ import '../../styles/theme/workspace/default-vilay/default-vilay-workspace-theme
 import '../../styles/typography/editor/default-vilay/default-vilay-editor-typography.scss'
 import '../../styles/app.scss'
 
-const { versions } = window
+const { electron } = window
 
 export const App = () => {
-  versions.node().then(value => console.log(value))
+  electron.node().then(value => console.log(value))
 
   const sideMinWidthClass = `min-w-[300px]`
   const editorWidthClass = `w-[calc(100%-300px)]`

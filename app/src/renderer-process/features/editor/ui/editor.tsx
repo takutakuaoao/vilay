@@ -7,21 +7,21 @@ type Props = {
 
 export const Editor = ({ addClass }: Props) => {
   const parent = React.useRef<HTMLDivElement>(null)
+  const [firstContent, setContent] = React.useState<string | undefined>(undefined)
 
   React.useEffect(() => {
-    const destroy = createEditor(parent.current!)
+    const destroy = createEditor(parent.current!, firstContent)
 
     return () => destroy()
-  }, [parent])
+  }, [parent, firstContent])
+
+  window.electron.receive('appCommand', (data: any[]) => {
+    setContent(data[0])
+  })
 
   return (
     <>
-      <div
-        id="code-mirror"
-        data-testid="editor"
-        ref={parent}
-        className={addClass}
-      ></div>
+      <div id="code-mirror" data-testid="editor" ref={parent} className={addClass}></div>
     </>
   )
 }
