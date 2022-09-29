@@ -7,6 +7,7 @@ export interface IElectronAPI {
 export interface IElectron {
   node: () => Promise<string>
   receive: (channel: Channels, callback: (...args: any[]) => void) => void
+  send: (channel: Channels, data: any[]) => void
 }
 
 declare global {

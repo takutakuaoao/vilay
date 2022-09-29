@@ -28,7 +28,5 @@ export type RootState = ReturnType<typeof store.getState>
 export const useSelector: TypedUseSelectorHook<RootState> = rawUseSelector
 
 window.electron.receive('saveCommand', (data: any[]) => {
-  console.log('receive saveCommand')
-  console.log(getContent())
-  // console.log(useSelector(state => state.note.content))
+  window.electron.send('editorSender', [getContent()])
 })
