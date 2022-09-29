@@ -14,8 +14,16 @@ type DestroyComponent = () => void
 
 export const createEditor = (
   parentDom: HTMLElement,
-  doc: string | undefined = undefined
+  doc: string | undefined = undefined,
+  updateDispatch: (content: string) => void
 ): DestroyComponent => {
+  const updateCallback = EditorView.updateListener.of(update => {
+    if (!update.docChanged) {
+      return
+    }
+    updateDispatch(update.state.doc.toString())
+  })
+
   const state = EditorState.create({
     doc: doc,
     extensions: [
@@ -26,6 +34,7 @@ export const createEditor = (
       highlightActiveLineGutter(),
       baseTheme(),
       defaultTheme(),
+      updateCallback,
     ],
   })
 
