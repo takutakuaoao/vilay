@@ -5,16 +5,20 @@ import { getContent } from '../features/editor/ui/editor'
 export const noteSlice = createSlice({
   name: 'note',
   initialState: {
+    isInitFinish: false,
     content: '',
   },
   reducers: {
     update: (state, action) => {
       state.content = action.payload
     },
+    completeInit: state => {
+      state.isInitFinish = true
+    },
   },
 })
 
-export const { update } = noteSlice.actions
+export const { update, completeInit } = noteSlice.actions
 const noteReducer = noteSlice.reducer
 
 export const store = configureStore({
@@ -29,4 +33,8 @@ export const useSelector: TypedUseSelectorHook<RootState> = rawUseSelector
 
 window.electron.receive('saveCommand', (data: any[]) => {
   window.electron.send('editorSender', [getContent()])
+})
+
+window.electron.receive('openCommand', (data: any[]) => {
+  update(data[0])
 })
