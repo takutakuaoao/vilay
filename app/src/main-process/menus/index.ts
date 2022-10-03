@@ -8,9 +8,11 @@ export const createAppMenu = () => {
   const menu = Menu.getApplicationMenu()
   const fileMenu = menu!.items.find(item => item.label === FILE_MENU_LABEL)
   const openFileMenu = makeOpenFileMenu()
+  const saveFileMenu = makeSaveFileMenu()
 
   if (fileMenu) {
     fileMenu.submenu!.insert(0, openFileMenu)
+    fileMenu.submenu!.insert(0, saveFileMenu)
   }
 
   Menu.setApplicationMenu(menu)
@@ -27,6 +29,17 @@ const makeOpenFileMenu = (): MenuItem => {
       const response = service.execute(new OpenFileRequest(path.filePaths[0]))
       window!.setTitle(response.filePath())
       window!.webContents.send('appCommand', response.showContent())
+    },
+  })
+}
+
+const makeSaveFileMenu = (): MenuItem => {
+  return new MenuItem({
+    label: 'Save File',
+    id: 'save-file',
+    click: async () => {
+      const window = BrowserWindow.getFocusedWindow()
+      window!.webContents.send('saveCommand', [])
     },
   })
 }

@@ -15,8 +15,10 @@ export const Editor = ({ addClass }: Props) => {
     return () => destroy()
   }, [parent, firstContent])
 
-  window.electron.receive('appCommand', (data: any[]) => {
-    setContent(data[0])
+  React.useEffect(() => {
+    window.electron.receive('appCommand', (data: any[]) => {
+      setContent(data[0])
+    })
   })
 
   return (

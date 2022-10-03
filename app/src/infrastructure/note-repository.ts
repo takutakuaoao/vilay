@@ -9,4 +9,14 @@ export class NoteRepository {
     const content = fs.readFileSync(path.filePath())
     return new Note(path, Content.fromText(content.toString()))
   }
+
+  public exists(path: Path): boolean {
+    // eslint-disable-next-line no-sync
+    return fs.existsSync(path.filePath())
+  }
+
+  public save(note: Note): void {
+    // eslint-disable-next-line no-sync
+    fs.writeFileSync(note.filePath(), note.showContent())
+  }
 }
