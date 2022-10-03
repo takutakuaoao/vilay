@@ -34,7 +34,3 @@ export const useSelector: TypedUseSelectorHook<RootState> = rawUseSelector
 window.electron.receive('saveCommand', (data: any[]) => {
   window.electron.send('editorSender', [getContent()])
 })
-
-window.electron.receive('openCommand', (data: any[]) => {
-  update(data[0])
-})
