@@ -4,6 +4,10 @@ export class Content {
     return new Content(textList)
   }
 
+  public static ofBlank(): Content {
+    return Content.fromText('')
+  }
+
   public constructor(private readonly textList: string[]) {}
 
   public showText(): string {
