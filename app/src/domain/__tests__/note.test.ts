@@ -1,9 +1,17 @@
 import { Note } from '../note'
-import { Path } from '../path'
 import { Content } from '../content'
+import { NotePath } from '../note-path'
 
 test('ファイルパスを表示する', () => {
-  const note = new Note(Path.fromText('/test/path/file.txt'), Content.fromText(''))
+  const notePath = '/test/path/file.adoc'
+  const note = new Note(NotePath.fromPathText(notePath), Content.fromText(''))
 
-  expect(note.filePath()).toBe('/test/path/file.txt')
+  expect(note.filePath()).toBe('/test/path/file.adoc')
+})
+
+test('新規ノートを作成する', () => {
+  const note = Note.createNew(NotePath.fromPathText('/dir/dir2/test.adoc'))
+
+  expect(note.showContent()).toBe('')
+  expect(note.filePath())
 })

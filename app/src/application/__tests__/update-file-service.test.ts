@@ -3,7 +3,7 @@ import path from 'path'
 import fs from 'fs'
 import { UpdateFileRequest, UpdateFileService } from '../update-file-service'
 
-const updateFilePath = path.join(__dirname, 'mock', 'update-file.txt')
+const updateFilePath = path.join(__dirname, 'mock', 'update-file.adoc')
 
 test('ファイルを更新する', () => {
   const updateContent = 'update file text'

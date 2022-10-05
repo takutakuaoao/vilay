@@ -7,3 +7,9 @@ test('コンテンツ内容の表示', () => {
 
   expect(content.showText()).toBe(value)
 })
+
+test('ブランクのコンテンツを生成', () => {
+  const content = Content.ofBlank()
+
+  expect(content.showText()).toBe('')
+})

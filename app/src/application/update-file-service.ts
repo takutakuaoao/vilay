@@ -1,6 +1,6 @@
 import { Content } from '../domain/content'
 import { Note } from '../domain/note'
-import { Path } from '../domain/path'
+import { NotePath } from '../domain/note-path'
 import { NoteRepository } from '../infrastructure/note-repository'
 
 export class UpdateFileRequest {
@@ -10,7 +10,10 @@ export class UpdateFileRequest {
   ) {}
 
   public toNote(): Note {
-    return new Note(Path.fromText(this.updateFilePath), Content.fromText(this.updateContent))
+    return new Note(
+      NotePath.fromPathText(this.updateFilePath),
+      Content.fromText(this.updateContent)
+    )
   }
 }
 

@@ -1,15 +1,15 @@
-import { Path } from './path'
 import { Content } from './content'
+import { NotePath } from './note-path'
 
 export class Note {
-  public constructor(private readonly path: Path, private readonly content: Content) {}
-
-  public filePath(): string {
-    return this.path.filePath()
+  public static createNew(path: NotePath): Note {
+    return new Note(path, Content.ofBlank())
   }
 
-  public name(): string {
-    return this.path.fileName()
+  public constructor(private readonly notePath: NotePath, private readonly content: Content) {}
+
+  public filePath(): string {
+    return this.notePath.showFullPath()
   }
 
   public showContent(): string {
