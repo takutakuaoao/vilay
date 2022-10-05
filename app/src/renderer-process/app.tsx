@@ -5,6 +5,7 @@ import { FileTree } from './features/file-tree/ui/file-tree'
 import '../../styles/theme/workspace/default-vilay/default-vilay-workspace-theme.scss'
 import '../../styles/typography/editor/default-vilay/default-vilay-editor-typography.scss'
 import '../../styles/app.scss'
+import { Preview } from './features/preview/ui/preview'
 // import { useSelector } from './store'
 
 const { electron } = window
@@ -22,6 +23,7 @@ export const App = () => {
         <div className="flex w-screen">
           <FileTree addingClassName={sideMinWidthClass} />
           <Editor addClass={editorWidthClass} />
+          <Preview />
         </div>
       </div>
     </div>
