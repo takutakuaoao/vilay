@@ -13,14 +13,12 @@ export const App = () => {
   electron.node().then(value => console.log(value))
   // const content = useSelector(state => state.note.content)
 
-  const editorWidthClass = `w-[calc(100%-300px)]`
-
   return (
     <div id="default-vilay-workspace-theme">
       <div id="default-vilay-typography">
         <div className="flex w-screen">
-          <Editor addClass={editorWidthClass} />
-          <Preview />
+          <Editor addClass={'w-1/2'} />
+          <Preview class="w-1/2" />
         </div>
       </div>
     </div>
