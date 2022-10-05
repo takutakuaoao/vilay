@@ -18,13 +18,15 @@ let editorContent: Content = new Content('')
 
 export const createEditor = (
   parentDom: HTMLElement,
-  doc: string | undefined = undefined
+  doc: string | undefined = undefined,
+  previewUpdate: (content: string) => void
 ): DestroyComponent => {
   const updateCallback = EditorView.updateListener.of(update => {
     if (!update.docChanged) {
       return
     }
     editorContent = editorContent.update(update.state.doc.toString())
+    previewUpdate(update.state.doc.toString())
   })
 
   const state = EditorState.create({

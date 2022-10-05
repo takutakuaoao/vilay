@@ -1,18 +1,21 @@
 import * as React from 'react'
-import { AsciidocContent } from '../../../domain/asciidoc-content'
+import { useSelector } from '../../../store'
 
 type Props = {
   class: string
 }
 
 export const Preview: React.FC<Props> = props => {
-  const html = AsciidocContent.fromText('= test').parseHTML()
+  const preview = useSelector(state => state.preview.preview)
+
   return (
-    <div
-      className={props.class}
-      dangerouslySetInnerHTML={{
-        __html: html,
-      }}
-    />
+    <div id="preview" className={`${props.class}`}>
+      <div
+        className="px-14"
+        dangerouslySetInnerHTML={{
+          __html: preview,
+        }}
+      />
+    </div>
   )
 }

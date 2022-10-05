@@ -15,7 +15,11 @@ export class AsciidocContent {
     const parser = Asciidoctor()
     return parser
       .convert(this.showContent(), {
-        attributes: { showtitle: true, linkcss: true, icons: 'font' },
+        safe: 'safe',
+        attributes: {
+          showtitle: true,
+          icons: 'font',
+        },
       })
       .toString()
   }

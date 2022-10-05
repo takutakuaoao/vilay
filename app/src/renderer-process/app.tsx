@@ -3,6 +3,7 @@ import { Editor } from './features/editor/ui/editor'
 
 import '../../styles/theme/workspace/default-vilay/default-vilay-workspace-theme.scss'
 import '../../styles/typography/editor/default-vilay/default-vilay-editor-typography.scss'
+import '../../styles/theme/preview/default-vilay/default-vilay-preview-theme.scss'
 import '../../styles/app.scss'
 import { Preview } from './features/preview/ui/preview'
 // import { useSelector } from './store'
