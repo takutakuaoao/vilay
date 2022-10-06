@@ -1,12 +1,11 @@
 import { app, BrowserWindow } from 'electron'
 // eslint-disable-next-line no-restricted-imports
 import { ipcMain } from 'electron'
-import { UpdateFileRequest, UpdateFileService } from '../application/update-file-service'
-import { NoteRepository } from '../infrastructure/note-repository'
 import { AppWindow } from './app-window'
 import { createAppMenu } from './menus'
 
 import log from 'electron-log'
+import { clickSaveFile } from '../controller/menu-controller'
 
 app.on('ready', async () => {
   await createWindow()
@@ -18,8 +17,7 @@ app.on('ready', async () => {
       return
     }
     const path = window!.getTitle()
-    const service = new UpdateFileService(new NoteRepository())
-    service.execute(new UpdateFileRequest(path, data[0]))
+    clickSaveFile(path, data[0])
   })
 })
 

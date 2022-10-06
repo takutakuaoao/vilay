@@ -17,6 +17,7 @@
     "@codemirror/view": "^6.2.2",
     "@reduxjs/toolkit": "^1.8.5",
     "app-path": "^4.0.0",
+    "asciidoctor": "^2.2.6",
     "codemirror": "^6.0.1",
     "codemirror-asciidoc": "^2.0.1",
     "electron-log": "^4.4.8",
