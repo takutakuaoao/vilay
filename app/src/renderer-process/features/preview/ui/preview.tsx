@@ -9,7 +9,7 @@ export const Preview: React.FC<Props> = props => {
   const preview = useSelector(state => state.preview.preview)
 
   return (
-    <div id="preview" className={`${props.class}`}>
+    <div id="preview" className={`${props.class} overflow-auto max-h-screen`}>
       <div
         className="px-14"
         dangerouslySetInnerHTML={{
