@@ -1,8 +1,6 @@
-import { defaultKeymap } from '@codemirror/commands'
 import { EditorState } from '@codemirror/state'
 import {
   EditorView,
-  keymap,
   lineNumbers,
   highlightActiveLine,
   highlightActiveLineGutter,
@@ -32,7 +30,6 @@ export const createEditor = (
   const state = EditorState.create({
     doc: doc,
     extensions: [
-      keymap.of(defaultKeymap),
       asciidocPlugins(),
       lineNumbers(),
       highlightActiveLine(),
