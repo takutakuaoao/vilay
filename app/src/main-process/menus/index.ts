@@ -6,16 +6,19 @@ const FILE_MENU_LABEL = 'File'
 const FileMenuList = [
   {
     id: 'open-file',
+    accelerator: 'Command+O',
     label: 'Open File',
     click: async () => await clickOpenFileEvent(),
   },
   {
     id: 'new-file',
+    accelerator: 'Ctrl+N',
     label: 'New File',
     click: async () => await clickNewFileEvent(),
   },
   {
     id: 'save-file',
+    accelerator: 'Ctrl+S',
     label: 'Save File',
     click: async () => await clickSaveFileEvent(),
   },
