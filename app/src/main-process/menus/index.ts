@@ -1,24 +1,25 @@
 import { BrowserWindow, dialog, Menu, MenuItem } from 'electron'
 import { clickCreateNewFile, clickOpenFile } from '../../controller/menu-controller'
+import { Shortcut } from '../../renderer-process/domain/shortcut/shortcut'
 
 const FILE_MENU_LABEL = 'File'
 
 const FileMenuList = [
   {
     id: 'open-file',
-    accelerator: 'Command+O',
+    accelerator: Shortcut.ofOpenFileShortcut().accelerator(),
     label: 'Open File',
     click: async () => await clickOpenFileEvent(),
   },
   {
     id: 'new-file',
-    accelerator: 'Ctrl+N',
+    accelerator: Shortcut.ofNewFileShortcut().accelerator(),
     label: 'New File',
     click: async () => await clickNewFileEvent(),
   },
   {
     id: 'save-file',
-    accelerator: 'Ctrl+S',
+    accelerator: Shortcut.ofSaveFileShortcut().accelerator(),
     label: 'Save File',
     click: async () => await clickSaveFileEvent(),
   },

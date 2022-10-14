@@ -2,6 +2,11 @@ import { BrowserWindow } from 'electron'
 import windowStateKeeper from 'electron-window-state'
 import * as path from 'path'
 import { encodePathAsUrl } from '../lib/path'
+import { Title } from '../renderer-process/domain/title'
+
+const getFirstTitle = (): string => {
+  return Title.ofNew().toString()
+}
 
 export class AppWindow {
   private minWidth = 960
@@ -19,7 +24,7 @@ export class AppWindow {
     const windowOptions: Electron.BrowserWindowConstructorOptions = {
       x: savedWindowState.x,
       y: savedWindowState.y,
-      title: 'test',
+      title: getFirstTitle(),
       width: savedWindowState.width,
       height: savedWindowState.height,
       minWidth: this.minWidth,
@@ -31,7 +36,6 @@ export class AppWindow {
         spellcheck: true,
         preload: path.resolve(__dirname, 'preload.js'),
         sandbox: true,
-        // preload: encodePathAsUrl(__dirname, 'preload.js'),
       },
       acceptFirstMouse: true,
     }

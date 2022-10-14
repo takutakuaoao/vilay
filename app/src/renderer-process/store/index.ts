@@ -17,9 +17,24 @@ const previewSlice = createSlice({
 
 export const { update } = previewSlice.actions
 
+const editorSlice = createSlice({
+  name: 'editor',
+  initialState: {
+    isInit: false,
+  },
+  reducers: {
+    openFile: state => {
+      state.isInit = true
+    },
+  },
+})
+
+export const { openFile } = editorSlice.actions
+
 export const store = configureStore({
   reducer: {
     preview: previewSlice.reducer,
+    editor: editorSlice.reducer,
   },
 })
 

@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
 
-export type Channels = 'appCommand' | 'saveCommand' | 'editorSender' | 'openCommand'
+export type Channels = 'appCommand' | 'saveCommand' | 'editorSender'
 
 contextBridge.exposeInMainWorld('electron', {
   node: async () => await ipcRenderer.invoke('getNodeVersion'),
