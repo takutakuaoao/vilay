@@ -23,6 +23,18 @@ export class Key {
 
   public constructor(private value: KeyValue) {}
 
+  public symbol(): string {
+    if (this.value === 'ctrl') {
+      return '^'
+    }
+
+    if (this.value === 'cmd') {
+      return '⌘'
+    }
+
+    return this.value
+  }
+
   public capitalize(): string {
     if (this.value.length === 1) {
       return this.value.charAt(0).toUpperCase()

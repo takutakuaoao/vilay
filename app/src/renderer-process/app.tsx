@@ -6,13 +6,11 @@ import '../../styles/typography/editor/default-vilay/default-vilay-editor-typogr
 import '../../styles/theme/preview/default-vilay/default-vilay-preview-theme.scss'
 import '../../styles/app.scss'
 import { Preview } from './features/preview/ui/preview'
-// import { useSelector } from './store'
-
-const { electron } = window
+import { useSelector } from './store'
+import { Init } from './features/init/ui'
 
 export const App = () => {
-  electron.node().then(value => console.log(value))
-  // const content = useSelector(state => state.note.content)
+  const isInit = useSelector(state => state.editor.isInit)
 
   return (
     <div id="default-vilay-workspace-theme">
@@ -20,6 +18,7 @@ export const App = () => {
         <div className="flex w-screen">
           <Editor addClass={'w-1/2'} />
           <Preview class="w-1/2" />
+          {!isInit && <Init />}
         </div>
       </div>
     </div>

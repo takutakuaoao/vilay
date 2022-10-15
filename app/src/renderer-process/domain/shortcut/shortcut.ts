@@ -17,6 +17,10 @@ export class Shortcut {
 
   public constructor(private keyList: Key[]) {}
 
+  public symbols(): string[] {
+    return this.keyList.map(value => value.symbol())
+  }
+
   public accelerator(): string {
     const capitalizedList = this.keyList.map(value => value.capitalize())
 

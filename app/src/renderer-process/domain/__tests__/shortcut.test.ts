@@ -23,3 +23,9 @@ test('accelerator', () => {
 
   expect(shortcut.accelerator()).toBe('Ctrl+N')
 })
+
+test('symbols', () => {
+  const shortcut = Shortcut.ofOpenFileShortcut()
+
+  expect(shortcut.symbols()).toStrictEqual(['⌘', 'O'])
+})
